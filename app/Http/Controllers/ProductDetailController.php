@@ -130,7 +130,7 @@ $id=$request->productCatgory;
         'image_name' =>  $fileName,
         'group_id' => $request->productG,
         'category_id' => $request->productCategory,
-
+        'product_code' => $request->product_code,
     ]);
 // move pic
 $product_id = ProductDetail::latest()->first()->id;

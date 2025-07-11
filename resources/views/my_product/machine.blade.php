@@ -35,6 +35,10 @@
      <?php $s="مكنات كسر "; ?>
        
     @endif
+        @if ($id==6)
+     <?php $s="تبريد"; ?>
+       
+    @endif
     
     <div class="breadcrumb-header justify-content-between">
         <div class="my-auto">

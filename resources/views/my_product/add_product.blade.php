@@ -132,12 +132,12 @@
 
                         {{-- 3 --}}
 
-                        <div class="row">
- <div class="col">
-                                <label for="inputName" class="control-label">العملة</label>
+                     
+
+                                <!-- <label for="inputName" class="control-label">العملة</label>
                         <select name="carency" class="form-control SlectBox" required
                            >
-                           <!--placeholder-->
+                        
                            <option value="1"  >DHS</option>
                            <option value="2"  >GBP</option>
 
@@ -145,35 +145,9 @@
                           
                        </select>
                            
-                          
-                     
-
-
-                      
-                   </div>
-                            <div class="col">
-                                <label for="inputName" class="control-label">السعر </label>
-                                <input type="text" class="form-control form-control-lg" id="primary_price"
-                                    name="primary_price" title="يرجي ادخال السعر  "
-                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
-                                    required>
-                            </div>
-
-                            
-                            <div class="col">
-                                <label for="inputName" class="control-label">العمولة</label>
-                                <input type="text" class="form-control" id="Amount_Commission" name="Amount_Commission" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
-                                    value=0  required>
-                            </div>
-                       
-
-                        </div>
-
-                        {{-- 4 --}}
-
+                           -->
                         <div class="row">
-                            
-                            <div class="col">
+                                <div class="col">
                                 <label for="inputName" class="control-label">الحالة   </label>
                                 <select name="status" id="status" class="form-control" onchange="myFunction()" required>
                                     <!--placeholder-->
@@ -186,6 +160,32 @@
                                 </select>
                             </div>
 
+                      
+                   
+                            <div class="col">
+                                <label for="inputName" class="control-label">السعر $</label>
+                                <input type="text" class="form-control form-control-lg" id="primary_price"
+                                    name="primary_price" title="يرجي ادخال السعر  "
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                    required>
+                            </div>
+
+                            
+                            <!-- <div class="col">
+                                <label for="inputName" class="control-label">العمولة</label>
+                                <input type="text" class="form-control" id="Amount_Commission" name="Amount_Commission" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                    value=0  required>
+                            </div> -->
+                       
+
+                        </div>
+
+                        {{-- 4 --}}
+
+                        <div class="row">
+                            
+                         
+
                             <div class="col">
                                 <label for="inputName" class="control-label">مكان التواجد   </label>
                                 <select name="product_location" id="product_location" class="form-control" required>
@@ -197,12 +197,14 @@
                                     المستودع
                                 </option>
                                 <option value="2" >
-                                   محل كبير 
+                                   محل فرقان 
                                 </option>
                                 <option value="3" >
-                                    محل صغير
+                                    محل الكرة
                                 </option>
-
+                                <option value="4" >
+                                    محل الورشة
+                                </option>
 
 
                                 </select>

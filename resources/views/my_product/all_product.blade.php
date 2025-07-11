@@ -181,6 +181,8 @@
                             <thead>
                                 <tr>
                                     <th class="border-bottom-0" style="text-align: center;vertical-align: middle; " >رقم المنتج</th>
+                                    <th class="border-bottom-0"  style="text-align: center;vertical-align: middle; background-color:rgb(97, 134, 255);">كود المنتج</th>
+                                   
                                     <th class="border-bottom-0"  style="text-align: center;vertical-align: middle; background-color:rgb(97, 134, 255);">الشركة</th>
                                     <th class="border-bottom-0" style="text-align: center;vertical-align: middle; background-color:rgb(97, 134, 255);">اسم المنتج</th>
                                     <th class="border-bottom-0" style="text-align: center;vertical-align: middle; background-color:rgb(97, 134, 255);">الصنف</th>
@@ -199,6 +201,7 @@
                                     <?php $i++; ?>
                                     <tr>
                                         <td  style="text-align: center;vertical-align: middle;color:rgb(250, 246, 246);background-color:rgb(36, 111, 182);width:5" >{{ $i }}</td>
+                                       <td style="text-align: center;vertical-align: middle;">{{ $x->product_code }}</td>
                                         <td style="text-align: center;vertical-align: middle;">{{ $x->companies->company_name }}</td>
 
                                         <td style="text-align: center;vertical-align: middle;">
@@ -231,6 +234,7 @@
                                                 data-image-name ="{{ $x->image_name}}"
                                                 data-product_category_name ="{{ $x->category->category_name}}"
                                                 data-product_category_id ="{{ $x->category->id}}"
+                                                data-product_code="{{$x->product_code}}"
 
                                                 
 
@@ -292,7 +296,9 @@
                                     <option value="{{$productC->id }}">{{$productC->company_name}}</option>
                                 @endforeach
                             </select>
-                          
+                          <label for="exampleInputEmail1">كود المنتج</label>
+                                <input type="text" class="form-control" id="product_code" name="product_code" >
+                           
                                 <label for="exampleInputEmail1">اسم المنتج</label>
                                 <input type="text" class="form-control" id="product_name" name="product_name" required>
                            
@@ -368,6 +374,12 @@
                                 
                                 <input type="text" class="form-control" name="product_name" id="product_name" required>
                             </div>
+
+                            <div class="form-group">
+                                <label for="title">كود المنتج :</label>
+                                
+                                <input type="text" class="form-control" name="product_code" id="product_code" >
+</div>
                             <input type="hidden" class="form-control" name="group_id" id="group_id" value="">
 
                             <label class="my-1 mr-2" for="inlineFormCustomSelectPref">الفئة</label>
@@ -383,7 +395,7 @@
                                 
                             <input type="text" class="form-control" name="discraaption" id="discraaption" required>
                             </div>
-                            <label for="title">التقيم :</label>
+                            <!-- <label for="title">التقيم :</label>
                             <div class="input-group quantity" style=" ">
                                             <div class="input-group-prepend decrement-btn" style="cursor: pointer">
                                                 <span class="input-group-text" >-</span>
@@ -396,7 +408,7 @@
                                             </div>
                                            
                                         </div>
-                           
+                            -->
                             <h5 class="card-title">المرفقات</h5>
     
                             <div class="col-sm-12 col-md-12">
@@ -565,8 +577,7 @@
             var productG = button.data('product_g')
             var product_category_name = button.data('product_category_name')
             var product_category_id = button.data('product_category_id')
-
-       
+        var product_code = button.data('product_code')
             
             var modal = $(this)
             modal.find('.modal-body #product_name').val(product_name);
@@ -576,7 +587,7 @@
             modal.find('.modal-body #company_id').val(company_id);
             modal.find('.modal-body #product_category_name').val(product_category_name);
            
-            
+            modal.find('.modal-body #product_code').val(product_code);
 
 
             modal.find('.modal-body #id').val(id);

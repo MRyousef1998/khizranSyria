@@ -236,7 +236,7 @@ $id=$request->productCatgory;
         $exporter = User::where('role_id','=',1)->get();
         $importer = User::where('role_id','=',2)->get();
         $representative = User::where('role_id','=',3)->get();
-
+ 
        
 
         return view('my_product.add_product',compact('productCompanies','productCatgories','orders','status','exporter', 'importer','representative'));
@@ -250,17 +250,17 @@ $id=$request->productCatgory;
      */
     public function store(Request $request)
     { 
-        $myCarancyMull=1;
+        // $myCarancyMull=1;
         
-        if($request->carency==2){
-            $myCarancyMull=4.7;
+        // if($request->carency==2){
+        //     $myCarancyMull=4.7;
             
             
-              }
-              else if($request->carency==3){
-                $myCarancyMull=4.1;
+        //       }
+        //       else if($request->carency==3){
+        //         $myCarancyMull=4.1;
                 
-              }
+        //       }
 
             $order_id = $request->productorder;
      
@@ -268,23 +268,23 @@ $id=$request->productCatgory;
              for($i=0;$i<$request->qountity;$i++){
                    $newproduct =  Product::create([
                        'product_details_id' => $request->productClass,
-                        'primary_price' => ($request->primary_price)*$myCarancyMull,
+                        'primary_price' => ($request->primary_price),
                        
                    
                        
                        'statuses_id' =>$request->status ,
                        'note' =>$request->note ,
                        
-                       'price_with_comm' => ($request->primary_price+$request->Amount_Commission)*$myCarancyMull,
-                       'selling_price' => ($request->primary_price+$request->Amount_Commission)*$myCarancyMull,
+                      
+                       'selling_price'=>($request->primary_price+(($request->Amount_Commission)*50)/100),
                        'value_location' => $request->product_location,
           
                
                    ]);
                    $newproduct->order()->attach($order_id);
                    $order = Order::find($order_id);
-                    $order->Amount_Commission =  ($order->Amount_Commission)+(($request->Amount_Commission)*$myCarancyMull);
-                    $order->Total =  ($order->Total)+(($request->Amount_Commission)*$myCarancyMull)+(($request->primary_price)*$myCarancyMull);
+                    // $order->Amount_Commission =  ($order->Amount_Commission)+(($request->Amount_Commission)*$myCarancyMull);
+                    $order->Total =  ($order->Total)+(($request->primary_price));
 
                     $order->save();
            
