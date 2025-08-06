@@ -76,15 +76,15 @@ $productCatgories=ProductCategory::all();
           $machines =DB::table('products')->where("products.statuses_id",'!=',4)->where("products.statuses_id",'!=',7)->where("products.value_location",'=',$request->product_location)->
           leftJoin('product_details', 'product_details.id', '=', 'products.product_details_id')->leftJoin('product_groups', 'product_details.group_id', '=', 'product_groups.id')->leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
           ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id') ->Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id",$request->productCatgory)->where("product_details.company_id",$request->productCompany)->where("product_details.group_id",$request->productGroup)->where("products.selling_date", null)
-          ->selectRaw('product_details.id,company_name,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,product_details.image_name')
-          ->groupBy('product_details.id','company_name','product_name','country_of_manufacture','group_name','product_details.image_name')->get();
+          ->selectRaw('product_details.id,product_details.product_code,company_name,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,product_details.image_name')
+          ->groupBy('product_details.id','product_details.product_code','company_name','product_name','country_of_manufacture','group_name','product_details.image_name')->get();
           }
           else if($request->productGroup!=null){
               $machines =DB::table('products')->where("products.statuses_id",'!=',4)->where("products.statuses_id",'!=',7)->where("products.value_location",'=',$request->product_location)->
               leftJoin('product_details', 'product_details.id', '=', 'products.product_details_id')->leftJoin('product_groups', 'product_details.group_id', '=', 'product_groups.id')->leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
               ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id') ->Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id",$request->productCatgory)->where("product_details.group_id",$request->productGroup)->where("products.selling_date", null)
-              ->selectRaw('product_details.id,company_name,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,product_details.image_name')
-              ->groupBy('product_details.id','company_name','product_name','country_of_manufacture','group_name','product_details.image_name')->get();
+              ->selectRaw('product_details.id,product_details.product_code,company_name,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,product_details.image_name')
+              ->groupBy('product_details.id','product_details.product_code','company_name','product_name','country_of_manufacture','group_name','product_details.image_name')->get();
             
               
           }
@@ -92,16 +92,16 @@ $productCatgories=ProductCategory::all();
           $machines =DB::table('products')->where("products.statuses_id",'!=',4)->where("products.statuses_id",'!=',7)->where("products.value_location",'=',$request->product_location)->
           leftJoin('product_details', 'product_details.id', '=', 'products.product_details_id')->leftJoin('product_groups', 'product_details.group_id', '=', 'product_groups.id')->leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
           ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id') ->Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id",$request->productCatgory)->where("product_details.company_id",$request->productCompany)->where("products.selling_date", null)
-          ->selectRaw('product_details.id,company_name,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,product_details.image_name')
-          ->groupBy('product_details.id','company_name','product_name','country_of_manufacture','group_name','product_details.image_name')->get();
+          ->selectRaw('product_details.id,product_details.product_code,company_name,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,product_details.image_name')
+          ->groupBy('product_details.id','company_name','product_name','product_details.product_code','country_of_manufacture','group_name','product_details.image_name')->get();
            }
               else{
                  
                   $machines =DB::table('products')->where("products.statuses_id",'!=',4)->where("products.statuses_id",'!=',7)->where("products.value_location",'=',$request->product_location)->
                   leftJoin('product_details', 'product_details.id', '=', 'products.product_details_id')->leftJoin('product_groups', 'product_details.group_id', '=', 'product_groups.id')->leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
                   ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id') ->Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id",$request->productCatgory)->where("products.selling_date", null)
-                  ->selectRaw('product_details.id,company_name,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,product_details.image_name')
-                  ->groupBy('product_details.id','company_name','product_name','country_of_manufacture','group_name','product_details.image_name')->get();
+                  ->selectRaw('product_details.id,company_name,product_details.product_code,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,product_details.image_name')
+                  ->groupBy('product_details.id','company_name','product_name','product_details.product_code','country_of_manufacture','group_name','product_details.image_name')->get();
                  
   
               }
@@ -112,15 +112,15 @@ $productCatgories=ProductCategory::all();
           $machines =DB::table('products')->where("products.statuses_id",'!=',4)->where("products.statuses_id",'!=',7)->
           leftJoin('product_details', 'product_details.id', '=', 'products.product_details_id')->leftJoin('product_groups', 'product_details.group_id', '=', 'product_groups.id')->leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
           ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id') ->Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id",$request->productCatgory)->where("product_details.company_id",$request->productCompany)->where("product_details.group_id",$request->productGroup)->where("products.selling_date", null)
-          ->selectRaw('product_details.id,company_name,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,product_details.image_name')
-          ->groupBy('product_details.id','company_name','product_name','country_of_manufacture','group_name','product_details.image_name')->get();
+          ->selectRaw('product_details.id,company_name,product_details.product_code,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,product_details.image_name')
+          ->groupBy('product_details.id','company_name','product_name','product_details.product_code','country_of_manufacture','group_name','product_details.image_name')->get();
           }
           else if($request->productGroup!=null){
               $machines =DB::table('products')->where("products.statuses_id",'!=',4)->where("products.statuses_id",'!=',7)->
               leftJoin('product_details', 'product_details.id', '=', 'products.product_details_id')->leftJoin('product_groups', 'product_details.group_id', '=', 'product_groups.id')->leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
               ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id') ->Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id",$request->productCatgory)->where("product_details.group_id",$request->productGroup)->where("products.selling_date", null)
-              ->selectRaw('product_details.id,company_name,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,product_details.image_name')
-              ->groupBy('product_details.id','company_name','product_name','country_of_manufacture','group_name','product_details.image_name')->get();
+              ->selectRaw('product_details.id,product_details.product_code,company_name,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,product_details.image_name')
+              ->groupBy('product_details.id','product_details.product_code','company_name','product_name','country_of_manufacture','group_name','product_details.image_name')->get();
             
               
           }
@@ -128,16 +128,16 @@ $productCatgories=ProductCategory::all();
           $machines =DB::table('products')->where("products.statuses_id",'!=',4)->where("products.statuses_id",'!=',7)->
           leftJoin('product_details', 'product_details.id', '=', 'products.product_details_id')->leftJoin('product_groups', 'product_details.group_id', '=', 'product_groups.id')->leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
           ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id') ->Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id",$request->productCatgory)->where("product_details.company_id",$request->productCompany)->where("products.selling_date", null)
-          ->selectRaw('product_details.id,company_name,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,product_details.image_name')
-          ->groupBy('product_details.id','company_name','product_name','country_of_manufacture','group_name','product_details.image_name')->get();
+          ->selectRaw('product_details.id,product_details.product_code,company_name,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,product_details.image_name')
+          ->groupBy('product_details.id','product_details.product_code','company_name','product_name','country_of_manufacture','group_name','product_details.image_name')->get();
            }
               else{
                  
                   $machines =DB::table('products')->where("products.statuses_id",'!=',4)->where("products.statuses_id",'!=',7)->
                   leftJoin('product_details', 'product_details.id', '=', 'products.product_details_id')->leftJoin('product_groups', 'product_details.group_id', '=', 'product_groups.id')->leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
                   ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id') ->Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id",$request->productCatgory)->where("products.selling_date", null)
-                  ->selectRaw('product_details.id,company_name,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,product_details.image_name')
-                  ->groupBy('product_details.id','company_name','product_name','country_of_manufacture','group_name','product_details.image_name')->get();
+                  ->selectRaw('product_details.id,product_details.product_code,company_name,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,product_details.image_name')
+                  ->groupBy('product_details.id','product_details.product_code','company_name','product_name','country_of_manufacture','group_name','product_details.image_name')->get();
                  
   
               }
@@ -168,33 +168,33 @@ $id=$request->productCatgory;
         $machines =DB::table('products')->where("products.statuses_id",'=',7)->
         leftJoin('product_details', 'product_details.id', '=', 'products.product_details_id')->leftJoin('product_groups', 'product_details.group_id', '=', 'product_groups.id')->leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
         ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id') ->Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id",$request->productCatgory)->where("product_details.company_id",$request->productCompany)->where("product_details.group_id",$request->productGroup)->where("products.selling_date", null)
-        ->selectRaw('product_details.id,company_name,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,product_details.image_name')
-        ->groupBy('product_details.id','company_name','product_name','country_of_manufacture','group_name','product_details.image_name')->get();
+        ->selectRaw('product_details.id,product_details.product_code,company_name,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,product_details.image_name')
+        ->groupBy('product_details.id','product_details.product_code','company_name','product_name','country_of_manufacture','group_name','product_details.image_name')->get();
         }
         else if($request->productGroup!=null){
             $machines =DB::table('products')->where("products.statuses_id",'=',7)->
             leftJoin('product_details', 'product_details.id', '=', 'products.product_details_id')->leftJoin('product_groups', 'product_details.group_id', '=', 'product_groups.id')->leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
             ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id') ->Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id",$request->productCatgory)->where("product_details.group_id",$request->productGroup)->where("products.selling_date", null)
-            ->selectRaw('product_details.id,company_name,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,product_details.image_name')
-            ->groupBy('product_details.id','company_name','product_name','country_of_manufacture','group_name','product_details.image_name')->get();
-          
+             ->selectRaw('product_details.id,product_details.product_code,company_name,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,product_details.image_name')
+        ->groupBy('product_details.id','product_details.product_code','company_name','product_name','country_of_manufacture','group_name','product_details.image_name')->get();
+       
             
         }
        else if( $request->productCompany!=null ){
         $machines =DB::table('products')->where("products.statuses_id",'=',7)->
         leftJoin('product_details', 'product_details.id', '=', 'products.product_details_id')->leftJoin('product_groups', 'product_details.group_id', '=', 'product_groups.id')->leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
         ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id') ->Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id",$request->productCatgory)->where("product_details.company_id",$request->productCompany)->where("products.selling_date", null)
-        ->selectRaw('product_details.id,company_name,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,product_details.image_name')
-        ->groupBy('product_details.id','company_name','product_name','country_of_manufacture','group_name','product_details.image_name')->get();
-         }
+         ->selectRaw('product_details.id,product_details.product_code,company_name,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,product_details.image_name')
+        ->groupBy('product_details.id','product_details.product_code','company_name','product_name','country_of_manufacture','group_name','product_details.image_name')->get();
+        }
             else{
                
                 $machines =DB::table('products')->where("products.statuses_id",'=',7)->
                 leftJoin('product_details', 'product_details.id', '=', 'products.product_details_id')->leftJoin('product_groups', 'product_details.group_id', '=', 'product_groups.id')->leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
                 ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id') ->Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id",$request->productCatgory)->where("products.selling_date", null)
-                ->selectRaw('product_details.id,company_name,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,product_details.image_name')
-                ->groupBy('product_details.id','company_name','product_name','country_of_manufacture','group_name','product_details.image_name')->get();
-               
+                 ->selectRaw('product_details.id,product_details.product_code,company_name,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,product_details.image_name')
+        ->groupBy('product_details.id','product_details.product_code','company_name','product_name','country_of_manufacture','group_name','product_details.image_name')->get();
+       
 
             }
             $productGroupes=ProductGroup::where("id",'!=',$request->productGroup)->get();

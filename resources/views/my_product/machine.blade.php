@@ -139,11 +139,15 @@
                                     المستودع
                                 </option>
                                 <option value="2" >
-                                   محل كبير 
+                                   محل فرقان 
                                 </option>
                                 <option value="3" >
-                                    محل صغير
+                                    محل الكرة
                                 </option>
+                                <option value="4" >
+                                    محل الورشة
+                                </option>
+
                                
                                 
 
@@ -206,6 +210,7 @@
                             <thead>
                                 <tr>
                                     <th class="border-bottom-0"  style="text-align: center;vertical-align: middle;  " >رقم المنتج</th>
+                                      <th class="border-bottom-0"  style="text-align: center;vertical-align: middle;  " >كود المنتج</th>
                                     <th class="border-bottom-0"  style="text-align: center;vertical-align: middle;  ">الشركة</th>
                                     <th class="border-bottom-0" style="text-align: center;vertical-align: middle;  ">اسم المنتج</th>
                                     <th class="border-bottom-0" style="text-align: center;vertical-align: middle;  ">الصنف</th>
@@ -222,6 +227,9 @@
                                     <?php $i++; ?>
                                     <tr>
                                         <td style="text-align: center;vertical-align: middle;color:rgb(250, 246, 246);background-color:rgb(36, 111, 182);" >{{ $i }}</td>
+                                        <td style="text-align: center;vertical-align: middle;">{{ $x->product_code	 }}</td>
+                                        
+                                        
                                         <td style="text-align: center;vertical-align: middle;">{{ $x->company_name }}</td>
 
                                         <td style="text-align: center;vertical-align: middle;">

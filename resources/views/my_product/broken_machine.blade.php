@@ -32,7 +32,15 @@
      <?php $s="قطع التبديل"; ?>
       @endif
        @if ($id==4)
-     <?php $s="مكنات كسر "; ?>
+     <?php $s="عصارات "; ?>
+       
+    @endif
+        @if ($id==5)
+     <?php $s="فرازات "; ?>
+       
+    @endif
+        @if ($id==6)
+     <?php $s="تبريد "; ?>
        
     @endif
     
@@ -181,6 +189,7 @@
                             <thead>
                                 <tr>
                                     <th class="border-bottom-0"  style="text-align: center;vertical-align: middle;  " >رقم المنتج</th>
+                                    <th class="border-bottom-0"  style="text-align: center;vertical-align: middle;  " >كود المنتج</th>
                                     <th class="border-bottom-0"  style="text-align: center;vertical-align: middle;  ">الشركة</th>
                                     <th class="border-bottom-0" style="text-align: center;vertical-align: middle;  ">اسم المنتج</th>
                                     <th class="border-bottom-0" style="text-align: center;vertical-align: middle;  ">الصنف</th>
@@ -196,6 +205,7 @@
                                     <?php $i++; ?>
                                     <tr>
                                         <td  >{{ $i }}</td>
+                                        <td style="text-align: center;vertical-align: middle;">{{ $x->product_code }}</td>
                                         <td style="text-align: center;vertical-align: middle;">{{ $x->company_name }}</td>
 
                                         <td style="text-align: center;vertical-align: middle;">

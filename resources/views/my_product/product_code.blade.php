@@ -162,7 +162,8 @@
                         <table id="example" class="table key-buttons text-md-nowrap" >
                             <thead>
                                 <tr>
-                                    <th class="border-bottom-0"  style="text-align: center;vertical-align: middle;  " >کود المنتج</th>
+                                     <th class="border-bottom-0"  style="text-align: center;vertical-align: middle;  " >کود المنتج الخاص</th>
+                                    <th class="border-bottom-0"  style="text-align: center;vertical-align: middle;  " >کود المنتج العام</th>
                                     <th class="border-bottom-0"  style="text-align: center;vertical-align: middle;  ">الشركة</th>
                                     <th class="border-bottom-0"  style="text-align: center;vertical-align: middle;  ">مكان التواجد</th>
                                     <th class="border-bottom-0"  style="text-align: center;vertical-align: middle;  ">الحالة</th>
@@ -187,8 +188,8 @@
                                    
                                     <tr>  
                                        
-                                        <td style="text-align: center;vertical-align: middle;">P{{ $x->products_id }}OR</td>
-
+                                        <td style="text-align: center;vertical-align: middle;">P{{$x->products_id }}OR</td>
+                                        <td style="text-align: center;vertical-align: middle;">{{$x->product_code }}</td>
                              
                                       
                                         <td style="text-align: center;vertical-align: middle;">{{$x->company_name}} {{$x->product_name}} {{ $x->group_name }}</td>
