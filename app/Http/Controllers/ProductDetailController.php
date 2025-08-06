@@ -89,7 +89,7 @@ $id=$request->productCatgory;
      */
     public function store(Request $request)
     { 
-       
+  
         $input =$request->all();
         $p_exists=ProductDetail::where('product_name','=',$input['product_name'])->where('group_id','=',$input['productG'])->exists();
         if ($p_exists){
@@ -131,6 +131,7 @@ $id=$request->productCatgory;
         'group_id' => $request->productG,
         'category_id' => $request->productCategory,
         'product_code' => $request->product_code,
+        'discraaption' => $request->discraaption,
     ]);
 // move pic
 $product_id = ProductDetail::latest()->first()->id;

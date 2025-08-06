@@ -177,7 +177,7 @@
                 <div class="card-body">
                     <div class="table-responsive">
                         @if (isset($productDetail))
-                        <table id="example1" class="table key-buttons text-md-nowrap" data-page-length='50'>
+                        <table id="example" class="table key-buttons text-md-nowrap" data-page-length='50'>
                             <thead>
                                 <tr>
                                     <th class="border-bottom-0" style="text-align: center;vertical-align: middle; " >رقم المنتج</th>
@@ -189,7 +189,7 @@
                                     
                                     <th class="border-bottom-0" style="text-align: center;vertical-align: middle; background-color:rgb(97, 134, 255);">بلد المنشأ</th>
                                  
-
+                                    <th class="border-bottom-0" style="text-align: center;vertical-align: middle; background-color:rgb(97, 134, 255);">المواصفات</th>
 
                                     <th class="border-bottom-0" style="text-align: center;vertical-align: middle; background-color:rgb(97, 134, 255);">العمليات</th>
 
@@ -218,10 +218,11 @@
                                         <td style="text-align: center;vertical-align: middle;">{{ $x->groups->group_name }}</td>
 
                                         <td style="text-align: center;vertical-align: middle; color:rgb(207, 14, 14); " >{{ $x->companies->country_of_manufacture }}</td>
-                                        
-                                       
-
-
+                                       @if( $x->discraaption!=null)
+                                       <td style="text-align: center;vertical-align: middle;" >{{ $x->discraaption }}</td>
+                                       @else
+                                              <td style=" " >no descraption</td>
+                                            @endif
                                         <td style="text-align: center;vertical-align: middle;" >
 
                                             <a class="modal-effect btn btn-sm btn-info" data-effect="effect-scale"
@@ -310,6 +311,12 @@
                                     <option value="{{$productGroup->id}}" >{{ $productGroup->group_name }}</option>
                                 @endforeach
                             </select>
+                             <div class="form-group">
+                                <label for="title">التفاصيل :</label>
+
+                                
+                            <input type="text" class="form-control" name="discraaption" id="discraaption" >
+                            </div>
                         <br>
                             
                             <h5 class="card-title">المرفقات</h5>
@@ -393,7 +400,7 @@
                                 <label for="title">التفاصيل :</label>
 
                                 
-                            <input type="text" class="form-control" name="discraaption" id="discraaption" required>
+                            <input type="text" class="form-control" name="discraaption" id="discraaption" >
                             </div>
                             <!-- <label for="title">التقيم :</label>
                             <div class="input-group quantity" style=" ">
