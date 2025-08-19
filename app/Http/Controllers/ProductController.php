@@ -1007,6 +1007,7 @@ $myInvoice ->update([
            
     }
     public function product_report_serch(Request $request){
+      if($request->rdio	 == 2 ){
         $products =DB::table('products')->
        leftJoin('product_details', 'product_details.id', '=', 'products.product_details_id')
        ->leftJoin('product_groups', 'product_details.group_id', '=', 'product_groups.id')
@@ -1014,11 +1015,25 @@ $myInvoice ->update([
        ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id') 
        ->Join('order_product', 'products.id', '=', 'order_product.products_id')-> leftJoin('orders', 'order_product.orders_id', '=', 'orders.id') -> leftJoin('users', 'orders.exported_id', '=', 'users.id') ->where("products.id", $request->product_id)
       -> leftJoin('boxes', 'boxes.id', '=', 'products.box_id')->leftJoin('shipments', 'boxes.shipment_id', '=', 'shipments.id') -> get();
+      }
+      else{
+          $products =DB::table('products')->
+       leftJoin('product_details', 'product_details.id', '=', 'products.product_details_id')
+       ->leftJoin('product_groups', 'product_details.group_id', '=', 'product_groups.id')
+       ->leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
+       ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id') 
+       ->Join('order_product', 'products.id', '=', 'order_product.products_id')
+       -> leftJoin('orders', 'order_product.orders_id', '=', 'orders.id') 
+       -> leftJoin('users', 'orders.exported_id', '=', 'users.id')
+      -> leftJoin('boxes', 'boxes.id', '=', 'products.box_id')->leftJoin('shipments', 'boxes.shipment_id', '=', 'shipments.id') ->where('product_details.product_code', 'LIKE', '%' . $request->product_id . '%')-> get();
       
-     $product_data =Product::find($request->product_id);
-     
+      }
+    
+
+    
+   //return  $products[0]->products_id;
      if ($products->isEmpty()==false) {
-   
+    $product_data =Product::find($products[0]->products_id);
         $satatus=Status::find($product_data->statuses_id);
       
         

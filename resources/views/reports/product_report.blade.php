@@ -86,16 +86,21 @@
 
 
                     <div class="col-lg-3 mg-t-20 mg-lg-t-0">
-                        <label class="rdiobox"><input checked name="rdio" value="2" type="radio" ><span>بحث برقم المنتج
+                        <label class="rdiobox"><input checked name="rdio" value="1" type="radio" ><span> بحث برقم المنتج العام
                             </span></label>
-                    </div><br><br>
+                    </div>
+                      <div class="col-lg-3 mg-t-20 mg-lg-t-0">
+                        <label class="rdiobox"><input checked name="rdio" value="2" type="radio" ><span> بحث برقم المنتج الخاص
+                            </span></label>
+                    </div>
+                    <br><br>
 
                     <div class="row">
 
                        
 
                         <div class="col-lg-3 mg-t-20 mg-lg-t-0" id="invoice_number">
-                            <p class="mg-b-10">البحث برقم المنتج</p>
+                            <p class="mg-b-10">رقم المنتج</p>
                             <input type="text" class="form-control" id="product_id" name="product_id">
 
                         </div><!-- col-4 -->
@@ -144,35 +149,36 @@
                             <tbody>
                           
                                
-                                  
+                                    @foreach ($products as $product)
                                     <tr>
 
-                                        <td style="text-align: center;vertical-align: middle;">{{ $products[0]->products_id }}</td>
-                                        <td style="text-align: center;vertical-align: middle;">{{$products[0]->company_name }}</td>
+
+                                        <td style="text-align: center;vertical-align: middle;">{{ $product->products_id }}</td>
+                                        <td style="text-align: center;vertical-align: middle;">{{$product->company_name }}</td>
 
                                         <td style="text-align: center;vertical-align: middle;">
                                             
                                        
                                                 <div>
-                                                    {{ $products[0]->product_name }}</div>
+                                                    {{ $product->product_name }}</div>
                                           
 
                                             
                                             </td>
                                       
-                                        <td style="text-align: center;vertical-align: middle;">{{ $products[0]->group_name }}</td>
+                                        <td style="text-align: center;vertical-align: middle;">{{ $product->group_name }}</td>
                                       
 
                                         <td style="text-align: center;vertical-align: middle;">
                                             <a href="{{url('OrderDetails')}}/{{$products[0]->orders_id}}"style="text-align: center;vertical-align: middle;">
-                                                {{$products[0]->orders_id}}
+                                                {{$product->orders_id}}
                                                 </a>
                                             </td>
-                                        <td style="text-align: center;vertical-align: middle;">{{ $products[0]->name }}</td>
+                                        <td style="text-align: center;vertical-align: middle;">{{ $product->name }}</td>
                                                 
                                         <td style="text-align: center;vertical-align: middle;">{{$satatus->status_name}}</td>
                                        
-                                            @if($products[0]->selling_date==null)
+                                            @if($product->selling_date==null)
                                                 <td style="text-align: center;vertical-align: middle;">غير مباع</td>
                                                 <td style="text-align: center;vertical-align: middle;">غير مخصص</td>
                                                 <td style="text-align: center;vertical-align: middle;">غير مخصص</td>
@@ -184,14 +190,14 @@
                                                 <td style="text-align: center;vertical-align: middle;">مباع</td>
                                                 <td style="text-align: center;vertical-align: middle;">
                                                 <a href="{{url('OrderDetails')}}/{{$products[1]->orders_id}}"style="text-align: center;vertical-align: middle;">
-                                                    {{$products[1]->orders_id}}
+                                                    {{$product->orders_id}}
                                                     </a>
                                                 </td>
-                                                <td style="text-align: center;vertical-align: middle;">{{$products[1]->name}}</td>
+                                                <td style="text-align: center;vertical-align: middle;">{{$product->name}}</td>
                                           
                                             }
                                             @endif
-                                            @if($products[0]->box_id==null)
+                                            @if($product->box_id==null)
                                         {<td style="text-align: center;vertical-align: middle;">غير مغلف</td>
 
                                             <td style="text-align: center;vertical-align: middle;">غير مخصص</td>
@@ -201,10 +207,10 @@
                                                 
                                                 
                                                 
-                                                <td style="text-align: center;vertical-align: middle;">{{$products[0]->box_code}}</td>}
+                                                <td style="text-align: center;vertical-align: middle;">{{$product->box_code}}</td>}
                                              @endif
 
-                                            @if($products[0]->shipment_id==null)
+                                            @if($product->shipment_id==null)
                                             {<td style="text-align: center;vertical-align: middle;">لم یتم الشحن</td>
     
                                                 <td style="text-align: center;vertical-align: middle;">غير مخصص</td>
@@ -214,10 +220,10 @@
                                                     
                                                     
                                                     
-                                                    <td style="text-align: center;vertical-align: middle;">{{$products[0]->shipment_id}}</td>}
+                                                    <td style="text-align: center;vertical-align: middle;">{{$product->shipment_id}}</td>}
                                                 @endif
 
-                                                <td style="text-align: center;vertical-align: middle;">{{$products[0]->note}}</td>
+                                                <td style="text-align: center;vertical-align: middle;">{{$product->note}}</td>
 
                                         <td style="text-align: center;vertical-align: middle;" >
                                             <div class="dropdown">
@@ -240,7 +246,7 @@
                                                             class="las la-pentext-warning fas fa-exchange-alt"></i>نقل الى قائمة الكسر</a>
                                                         @elseif($satatus->id==7)
                                                             <a class="dropdown-item" data-effect="effect-scale"
-                                                            data-products_id="{{ $products[0]->products_id }}" 
+                                                            data-products_id="{{ $product->products_id }}" 
                                                            
                                           
                                                     
@@ -255,14 +261,14 @@
                                                         @endif
          
                                                     <a class="dropdown-item" data-effect="effect-scale"
-                                                    data-product_id="{{ $products[0]->products_id }}" 
+                                                    data-product_id="{{ $product->products_id }}" 
                                                   
                                                         data-toggle="modal" href="#update_location" title="حذف"><i
                                                             class="las fa-exchange-alt"></i>نقل القطعة الى فرع اخر</a>
 
 
                                                             <a class="dropdown-item" href="#update_status"
-                                                                    data-product_id="{{ $products[0]->products_id }}"
+                                                                    data-product_id="{{ $product->products_id }}"
                                                                     data-toggle="modal"
                                                                         
                                                                         ><i
@@ -277,7 +283,7 @@
 
                                         
                                     </tr>
-                              
+                               @endforeach
                             </tbody>
                         </table>
 
