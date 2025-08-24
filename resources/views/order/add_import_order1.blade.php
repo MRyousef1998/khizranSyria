@@ -138,21 +138,36 @@
                                     <!--placeholder-->
                                     <option value="" selected disabled>حدد  المورد</option>
                                     @foreach ($importClints as $importClint)
-                                        <option value="{{ $importClint->id }}"> {{ $importClint->name }}</option>
+                                        <option value="{{ $importClint->id }}" > {{ $importClint->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
-                              <div class="col">
+                                 <div class="col">
+                                <label for="inputName" class="control-label">الحالة   </label>
+                                <select name="status" id="status" class="form-control"  required>
+                                    <!--placeholder-->
+                                    <option value="" selected disabled>حدد الحالة </option>
+                                     @foreach ($status as $statu)
+                                        <option value="{{ $statu->id }}" selected> {{ $statu->status_name }}</option>
+                                    @endforeach
+
+
+
+
+                                </select>
+                            </div>
+
+                              <!-- <div class="col">
                                 <label for="inputName" class="control-label">حدد العميل </label>
                                 <select name="clint" id="clint" class="form-control SlectBox" onchange="">
-                                    <!--placeholder-->
+                                  
                                     <option value="" selected >لایوجد  </option>
                                     @foreach ($clients as $client)
                                         <option value="{{ $client->id }}"> {{ $client->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
-                         
+                          -->
 
                         </div>
 
@@ -161,21 +176,7 @@
                         {{-- 3 --}}
 
                         <div class="row">
-                            <div class="col">
-                                <label for="inputName" class="control-label">الحالة   </label>
-                                <select name="status" id="status" class="form-control" onchange="myFunctiontoToDisableReadOnly()" required>
-                                    <!--placeholder-->
-                                    <option value="" selected disabled>حدد الحالة </option>
-                                     @foreach ($status as $statu)
-                                        <option value="{{ $statu->id }}"> {{ $statu->status_name }}</option>
-                                    @endforeach
-
-
-
-
-                                </select>
-                            </div>
-
+                       
                             <div class="col">
                                 <label>تاريخ الطلب</label>
                                 <input class="form-control appearance-none   w-full"type="date"  name="order_Date" placeholder="YYYY-MM-DD"
@@ -188,7 +189,7 @@
                             <div class="col">
                                 <label>تاريخ المتوقع للوصول</label>
                                 <input class="form-control appearance-none block w-full" type="date" name="Due_date" placeholder="YYYY-MM-DD"
-                                    type="text" required>
+                                    type="text" value="{{ date('Y-m-d') }}" required>
                             </div>
                           
 
@@ -201,12 +202,12 @@
                     
                         {{-- 4 --}}
 
-                        <div class="row">
+                        <!-- <div class="row">
                             <div class="col">
                                 <label for="inputName" class="control-label">العملة</label>
                         <select name="carency" class="form-control SlectBox" required
                            >
-                           <!--placeholder-->
+                           
                            <option value="1" selected >DHS</option>
                            <option value="2"  >GBP</option>
 
@@ -219,23 +220,27 @@
 
 
                       
-                   </div>
+                   </div> -->
+                   <div class="row">
                             <div class="col">
-                                <label for="inputName" class="control-label">مبلغ العمولة</label>
-                                <input type="text" class="form-control form-control-lg" id="Amount_Commission"
-                                    name="Amount_Commission" title="يرجي ادخال مبلغ العمولة "
+                                <label for="inputName" class="control-label">سعر الشراء</label>
+                                <input type="text" class="form-control form-control-lg" id="total"
+                                    name="total" 
                                     oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
-                                    readonly value=0>
+                                     value=0 required>
                             </div>
                             
                             <div class="col">
                                 <label for="inputName" class="control-label" >قيمة ضريبة القيمة المضافة</label>
-                                <input type="text" class="form-control form-control-lg" id="Value_VAT" name="Value_VAT" value=0 oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"onchange="finalTotal('total1')" onchange="calTotal()">
+                                <input type="text" class="form-control form-control-lg" id="Value_VAT" name="Value_VAT" value=0 oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                             </div>
 
-                            <div class="col">
-                                <label for="inputName" class="control-label"> السعر الاجمالي مع العمولة مع الضريبة </label>
-                                <input type="text" class="form-control form-control-lg" id="Total" name="Total" value=0  readonly>
+                          <div class="col">
+                                <label for="inputName" class="control-label">مبلغ الشحن</label>
+                                <input type="text" class="form-control form-control-lg" id="Amount_Commission"
+                                    name="Amount_Commission" title="يرجي ادخال مبلغ العمولة "
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                    required value=0>
                             </div>
                         </div>
                         
@@ -257,111 +262,7 @@
                             
                         
                         
-                        <div class="row">
-
-                            <div class="col-xl-12">
-                                <div class="card mg-b-20">
-                                    <div class="card-header pb-0">
-                                 
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table id="example1" class="table key-buttons text-md-nowrap" data-page-length='10'>
-                                                <thead>
-                                                    <tr>
-                                                        <!-- <th><input name="select_all" id="example-select-all" type="checkbox" onclick="CheckAll('box1', this)" /></th>!-->
-                                                        <th class="border-bottom-0" style="text-align: center;vertical-align: middle; " > #</th>
-                                                       
-                                                        <th class="border-bottom-0" style="text-align: center;vertical-align: middle; " >رقم المنتج</th>
-                                                        <th class="border-bottom-0"  style="text-align: center;vertical-align: middle; background-color:rgb(97, 134, 255);">الشركة</th>
-                                                        <th class="border-bottom-0" style="text-align: center;vertical-align: middle; background-color:rgb(97, 134, 255);">اسم المنتج</th>
-                                                        <th class="border-bottom-0" style="text-align: center;vertical-align: middle; background-color:rgb(97, 134, 255);">الصنف</th>
-                                                        
-                                                        <th class="border-bottom-0" style="text-align: center;vertical-align: middle; background-color:rgb(97, 134, 255);">بلد المنشأ</th>
-                                                        <th class="border-bottom-0" style="text-align: center;vertical-align: middle; background-color:rgb(97, 134, 255);">العدد</th>
-                                                        <th class="border-bottom-0" style="text-align: center;vertical-align: middle; background-color:rgb(97, 134, 255);">السعر</th>
-                                                        <th class="border-bottom-0" style="text-align: center;vertical-align: middle; background-color:rgb(97, 134, 255);">العمولة</th>
-                                                        <th class="border-bottom-0" style="text-align: center;vertical-align: middle; background-color:rgb(97, 134, 255);">السعر الاجمالي</th>                                 
-                    
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    
-                                                    <?php $i = 0; ?>
-                                                    @foreach ($productDetail as $x)
-                                                        <?php $i++; ?>
-                                                        <div class="all_row">
-                                                        <tr>
-                                                            
-                                                            <td style="text-align: center;vertical-align: middle; width:5"><input type="checkbox"  value="{{ $x->id }}" class="box1" id="box1" name="box1"  ></td>
-                                                            <td  style="text-align: center;vertical-align: middle; background-color:rgb(11, 107, 16);width:5" >{{ $i }}</td>
-                                                            <td style="text-align: center;vertical-align: middle;">{{ $x->companies->company_name }}</td>
-                    
-                                                            <td style="text-align: center;vertical-align: middle;">
-                                                                
-                                                                <div class = "vertical"   ><div>
-                                                                    <img src="Attachments/{{ $x->id }}/{{ $x->image_name }}"  width="140"  height="80" /></div>
-                                                                    <div>
-                                                                        {{ $x->product_name }}</div>
-                                                                </div>
-                    
-                                                                
-                                                                </td>
-                                                          
-                                                            <td style="text-align: center;vertical-align: middle;">{{ $x->groups->group_name }}</td>
-                    
-                                                            <td style="text-align: center;vertical-align: middle; color:rgb(207, 14, 14); " >{{ $x->companies->country_of_manufacture }}</td>
-                                                            
-                                                            <td   style="text-align: center;vertical-align: middle;width:15% ;height:15%">
-                                                                <div class="input-group quantity" style=" ">
-                                                                    <div class="input-group-prepend decrement-btn" style="cursor: pointer">
-                                                                        <span class="input-group-text" >-</span>
-                                                                    </div>
-                                                                    <input type="text" class="qty-input form-control  "  id= "quntity" name ="quntity"style="text-align: center;vertical-align: middle;" maxlength="3" max="10" value="0">
-                                                                    <div class="input-group-append increment-btn" style="cursor: pointer">
-                                                                        <span class="input-group-text"  >+</span>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-
-
-
-
-                                                                                 <td class="cart-product-quantity"  style="text-align: center;vertical-align: middle;width:15% ;height:15%">
-                                                                <div class="input-group" style=" ">
-                                                                    
-                                                                    <input type="text" class="price form-control" style="text-align: center;vertical-align: middle;"id="price"  name ="price" onchange="priceChange('price',this)"  maxlength="5"  value="0" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" readonly>
-
-                                                                    
-                                                                </div>
-                                                            </td>
-
-                                                            <td class="cart-product-quantity"  style="text-align: center;vertical-align: middle;width:15% ;height:15%">
-                                                                <div class="input-group" style=" ">
-                                                                
-                                                                    <input type="text" class="commission_pice form-control" style="text-align: center;vertical-align: middle;"id="commission_pice"  name ="commission_pice" onchange="priceChange('commission_pice',this)"  maxlength="5"  value="0" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" readonly>
-                                                                </div>
-                                                                
-                                                            </td>
-                                                            <td class="cart-product-quantity"  style="text-align: center;vertical-align: middle;width:15% ;height:15%">
-                                                                <div class="input-group" style=" ">
-                                                                    
-                                                                    <input type="text" class="total_price form-control" style="text-align: center;vertical-align: middle;"id="total_price" name ="total_price" maxlength="5"  value="0" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"onchange="finalTotal('total1')" readonly>
-                                                                    
-                                                                </div>
-                                                            </td>
-
-                                                             
-                                                            
-                                                            
-                                                        </tr>
-                                                    </div>
-                                                   
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-
-                                        </div>
+                       
                                           <div class="d-flex justify-content-center">
                             <button  class="" onclick="sandData()">حفظ البيانات</button>
                         </div>
@@ -431,7 +332,7 @@
         }).val();
 
     </script>
-<script>
+<!-- <script>
 
     
 $(document).ready(function () {
@@ -526,9 +427,9 @@ $('.decrement-btn').click(function (e) {
 });
 
 });
-</script>
+</script> -->
 
-<script>
+<!-- <script>
         function sandData() {
            
             var order = new Array();
@@ -555,9 +456,9 @@ $('.decrement-btn').click(function (e) {
 
         }
 
-    </script>
+    </script> -->
 
-<script>
+<!-- <script>
         function priceChange(className,elem) {
             var qty= $(elem).parent().parent().parent().find('.qty-input').val();
             var price_elem= $(elem).parent().parent().parent().find('.price');
@@ -580,8 +481,8 @@ $('.decrement-btn').click(function (e) {
 
         }
 
-    </script>
-     <script>
+    </script> -->
+     <!-- <script>
         function myFun(elem) {
 
             var quntity = parseFloat(document.getElementById("quntity").value);
@@ -644,8 +545,8 @@ $('.decrement-btn').click(function (e) {
 
         }
 
-    </script>
-    <script>
+    </script> -->
+    <!-- <script>
 
 
         function calTotal(){
@@ -699,7 +600,7 @@ else{
 
 }
 
-    </script>
+    </script> -->
     <script type="text/javascript">
     $(function() {
         $("#btn").click(function() {

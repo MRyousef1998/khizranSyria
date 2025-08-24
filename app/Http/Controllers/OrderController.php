@@ -18,7 +18,10 @@ use App\Models\OrderDetail;
 use App\Models\ProductDetail;
 use App\Models\Status;
 use Carbon\Carbon;
+use App\Models\AccountStatement;
+
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -120,20 +123,22 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        $myCarancyMull=1;
+        
+       
+        // $myCarancyMull=1;
           
-        if($request->carency==2){
-            $myCarancyMull=4.55;
+        // if($request->carency==2){
+        //     $myCarancyMull=4.55;
             
             
-              }
-              else if($request->carency==3){
-                $myCarancyMull=4.1;
+        //       }
+        //       else if($request->carency==3){
+        //         $myCarancyMull=4.1;
                 
-              }
+        //       }
             
      
-        $products=json_decode($request->my_hidden_input);
+        // $products=json_decode($request->my_hidden_input);
        
          
 
@@ -156,16 +161,16 @@ class OrderController extends Controller
              'order_due_date' => $request->Due_date,
              
              'exported_id' => $request->importer,
-             'representative_id' => $request->clint,
+             
              'statuses_id' => $request->status,
 
              'image_name' => $fileName,
 
              'category_id' => $request->order_category,
-             'Amount_Commission' => ($request->Amount_Commission)*$myCarancyMull,
-             'Value_VAT' => ($request->Value_VAT)*$myCarancyMull,
+             'Amount_Commission' => ($request->Amount_Commission),
+             'Value_VAT' => ($request->Value_VAT),
 
-             'Total' => ($request->Total)*$myCarancyMull,
+             'Total' => ($request->total),
 
 
 
@@ -175,18 +180,73 @@ class OrderController extends Controller
      $order_id = Order::latest()->first()->id;
      
      $request->pic->move(public_path('Attachments/' . $order_id ), $fileName);
-     if($products == null){
+          session()->flash('Add', ' تم اضافة الطلبية بنجاح قم بإضاقة المنتجات وحرر الفاتورة');
 
+            // add payment for transfar 
+            if($request->Amount_Commission != 0){
+       Payment::create([
+           
+            'amount' => $request->Amount_Commission,
+            'note' => "رسوم شحن",
+            'orders_id' =>$order_id,
+         
+            //'palance_after_this' => $fileName,
 
-        $newInvoice =  Invoice::create([
+            'pay_date' =>  Carbon::today(),
+   
+        ]);
+        $order=Order::find($order_id)->importer->name;
+        AccountStatement::create([
+            'purpose' =>"مصروف کونتینر رسوم شحن".$order,
+            'account_statement_types_id' => 1,
+            
+            'amount' => $request->Amount_Commission,
+            'note' => "رسوم شحن",
+            'user_id' =>(Auth::user()->id),
+
+            //'palance_after_this' => $fileName,
+
+            'pay_date' =>  Carbon::today(),
+  
+        ]);
+    }
+if($request->Value_VAT != 0){
+  Payment::create([
+           
+            'amount' => $request->Value_VAT,
+            'note' => "رسوم تخليص",
+            'orders_id' =>$order_id,
+         
+            //'palance_after_this' => $fileName,
+
+            'pay_date' =>  Carbon::today(),
+   
+        ]);
+       
+        AccountStatement::create([
+            'purpose' =>"مصروف کونتینر رسوم تخليص".$order,
+            'account_statement_types_id' => 1,
+            
+            'amount' => $request->Value_VAT,
+            'note' => "رسوم تخليص",
+            'user_id' =>(Auth::user()->id),
+
+            //'palance_after_this' => $fileName,
+
+            'pay_date' =>  Carbon::today(),
+  
+        ]);
+    }
+
+       $newInvoice =  Invoice::create([
             'invoice_Date' =>  Carbon::today(),
             'orders_id' => $order_id,
             
             'invoice_categories_id' => $request->order_category,
             
-            'Amount_collection' =>0 ,
+            'Amount_collection' =>$request->total,
             'Discount' =>0 ,
-            'Total' =>0 ,
+            'Total' =>$request->total   ,
             'Value_Status' =>3 ,
           
             'note' =>"" ,
@@ -194,33 +254,52 @@ class OrderController extends Controller
     
     
         ]);
-        session()->flash('Add', ' تم اضافة الطلبية بنجاح قم بإضاقة المنتجات وحرر الفاتورة');
              return redirect('OrderDetails/'. $order_id);
-    }
+    //  if($products == null){
+
+
+    //     $newInvoice =  Invoice::create([
+    //         'invoice_Date' =>  Carbon::today(),
+    //         'orders_id' => $order_id,
+            
+    //         'invoice_categories_id' => $request->order_category,
+            
+    //         'Amount_collection' =>0 ,
+    //         'Discount' =>0 ,
+    //         'Total' =>0 ,
+    //         'Value_Status' =>3 ,
+          
+    //         'note' =>"" ,
     
-     foreach($products as $product)
+    
+    
+    //     ]);
+   
+    // }
+    
+    //  foreach($products as $product)
      
-        { for($d=0 ;$d<$product->qty;$d++ ){
-            $newproduct =  Product::create([
-                'product_details_id' => $product->id,
-                'primary_price' =>( $product->price)*$myCarancyMull,
-                'price_with_comm' =>( $product->commission_pice+$product->price)*$myCarancyMull,
-                'selling_price' => ($product->commission_pice+$product->price)*$myCarancyMull,
+    //     { for($d=0 ;$d<$product->qty;$d++ ){
+    //         $newproduct =  Product::create([
+    //             'product_details_id' => $product->id,
+    //             'primary_price' =>( $product->price)*$myCarancyMull,
+    //             'price_with_comm' =>( $product->commission_pice+$product->price)*$myCarancyMull,
+    //             'selling_price' => ($product->commission_pice+$product->price)*$myCarancyMull,
                 
-                'statuses_id' =>$request->status ,
+    //             'statuses_id' =>$request->status ,
    
         
-            ]);
-            $newproduct->order()->attach($order_id);
+    //         ]);
+    //         $newproduct->order()->attach($order_id);
     
-          }}
+    //       }}
     
      
           
 
       
-         session()->flash('Add', ' تم اضافة الطلبية  بنجاح يرجى تحرير الفاتورة');
-         return redirect('add_invoices/'.$request->order_category.'/'.$order_id);
+    //      session()->flash('Add', ' تم اضافة الطلبية  بنجاح يرجى تحرير الفاتورة');
+    //      return redirect('add_invoices/'.$request->order_category.'/'.$order_id);
            
         
      }
@@ -473,7 +552,7 @@ $order=Order::find($order_id);
         $importer = User::where('role_id','=',2)->get();
         $representative = User::where('role_id','=',3)->get();
 
-       
+        
 
         return view('order.add_import_order1',compact('importClints','clients','productDetail','status','exporter', 'importer','representative'));
     }
