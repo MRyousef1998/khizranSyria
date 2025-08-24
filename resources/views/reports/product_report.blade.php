@@ -139,6 +139,7 @@
                                     <th class="wd-15p border-bottom-0">رقم الصندوق</th>
                                     <th class="wd-15p border-bottom-0">حالة الشحن</th>
                                     <th class="wd-15p border-bottom-0">رقم الشحنة</th>
+                                       <th class="wd-15p border-bottom-0">اخر مكان تواجد</th>
                                     <th class="wd-15p border-bottom-0">ملاحظات</th>
                                     <th class="border-bottom-0" style="text-align: center;vertical-align: middle; background-color:rgb(97, 134, 255);">العمليات</th>
 
@@ -222,7 +223,7 @@
                                                     
                                                     <td style="text-align: center;vertical-align: middle;">{{$product->shipment_id}}</td>}
                                                 @endif
-
+                                                    <td style="text-align: center;vertical-align: middle;">{{$product->location_name}}</td>
                                                 <td style="text-align: center;vertical-align: middle;">{{$product->note}}</td>
 
                                         <td style="text-align: center;vertical-align: middle;" >
@@ -412,11 +413,12 @@
                         <select name="location_id" id="location_id" class="form-control" required>
                             <option value="" selected disabled> --حدد الموقع--</option>
                            
-                                <option value="1">مسنودع</option>
-                                <option value="2">محل كبير</option>
-                                <option value="3">محل صغير</option>
+                                  @foreach ($location as $my_location)
+                                 
+                               <option value="{{$my_location->id }}"> {{ $my_location->location_name }}</option>
+                             @endforeach
                         </select>
-                       
+                   
                         
     
                     </div>

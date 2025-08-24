@@ -132,21 +132,25 @@
                         <div class="col-lg-2 mg-t-20 mg-lg-t-0" id="type">
                             <p class="mg-b-10">تحديد مكان التواجد</p><select class="form-control select2" name="product_location"
                                 >
-                                <option value="{{null}}" selected>
-                                    الكل 
+                                  <option value="{{ null }}" selected >
+                                    {{ 'الکل' }}
                                 </option>
-                                <option value="1" >
-                                    المستودع
+                                @if(! $typeproductLocation==null)
+                                <option value="{{ $typeproductLocation->id  }}" selected >
+                                    {{ $typeproductLocation->location_name  }}
                                 </option>
-                                <option value="2" >
-                                   محل فرقان 
-                                </option>
-                                <option value="3" >
-                                    محل الكرة
-                                </option>
-                                <option value="4" >
-                                    محل الورشة
-                                </option>
+                                @endif
+                              
+                                  @foreach ($location as $my_location)
+                                  @if( $my_location==$typeproductLocation )
+                        
+                              
+                                    
+                               @else
+                               <option value="{{$my_location->id }}"> {{ $my_location->location_name }}</option>
+                               @endif
+                            @endforeach
+                                
 
                                
                                 
@@ -185,7 +189,7 @@
                                 <option value="{{ $productGroup->id }}"> {{ $productGroup->group_name }}</option>
                             @endforeach
 
-                                
+                            
 
                             </select>
                         </div><!-- col-4 -->

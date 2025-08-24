@@ -137,6 +137,67 @@
 				
 					
 				</div>
+				<div class="row">
+				@foreach ($detailProductlocation as $x)
+					<div class="col-lg-3">
+					 
+						<div class="card item-card">
+							<div class="card-body pb-0 h-100">
+								
+								<div class="card-body cardbody relative">
+									<div class="cardtitle">
+										<span> مكان التواجد : </span>
+										
+									</div>
+									<div class="cardprice">
+										<span >{{$x->location_name}}</span>
+										
+									</div>
+									<div class="cardtitle">
+										
+									</div>
+									<div class="cardprice">
+										
+									</div>
+								</div>
+								<div class="card-body cardbody relative">
+								<div class="cardtitle">
+									@if ($x->count_in_place==1)
+										<span class="text-danger">العدد :</span>
+									
+									@elseif ($x->count_in_place==2)
+										<span class="text-warning">العدد :</span>
+									@else
+									
+										<span class="text-success">العدد :</span>
+										
+									@endif
+									
+										
+									</div>
+									<div class="cardprice">
+										@if ($x->count_in_place==1)
+										<span class="text-danger">{{$x->count_in_place}}</span>
+									
+									@elseif ($x->count_in_place==2)
+										<span class="text-warning">{{$x->count_in_place}}</span>
+									@else
+									
+										<span class="text-success">{{$x->count_in_place}}</span>
+										
+									@endif
+										
+									</div>
+									</div>
+							</div>
+						
+						</div>
+						
+					</div>@endforeach
+					
+				
+					
+				</div>
 				<!-- /row -->
 
 				<!-- row -->

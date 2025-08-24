@@ -94,7 +94,7 @@
                                required >
                                 <option value="{{ $typeproductCatgories->id ?? null }}" selected>
                                     {{ $typeproductCatgories->category_name ?? 'يرجى اختيار الصنف' }}
-                                </option>
+                                </option> 
                  
                                 @foreach ($productCategories as $productCatgory)
                                 <option value="{{ $productCatgory->id }}"> {{ $productCatgory->category_name }}</option>
@@ -104,25 +104,34 @@
                             </select>
                         </div><!-- col-4 -->
                         <div class="col-lg-2 mg-t-20 mg-lg-t-0" id="type">
-                            <p class="mg-b-10">مکان التواجد</p><select class="form-control select2" name="location"
+                            <p class="mg-b-10">تحديد مكان التواجد</p><select class="form-control select2" name="product_location"
                                 >
-                                <option value="{{ $typelocationId?? null }}" selected>
-                                {{ $typelocationId ?? 'الكل' }} 
+                                  <option value="{{ null }}" selected >
+                                    {{ 'الکل' }}
                                 </option>
-                 
-                                <option value="1" >
-                               المستودع
+                                @if(! $typeproductLocation==null)
+                                <option value="{{ $typeproductLocation->id  }}" selected >
+                                    {{ $typeproductLocation->location_name  }}
                                 </option>
+                                @endif
+                              
+                                  @foreach ($location as $my_location)
+                                  @if( $my_location==$typeproductLocation )
+                        
+                              
+                                    
+                               @else
+                               <option value="{{$my_location->id }}"> {{ $my_location->location_name }}</option>
+                               @endif
+                            @endforeach
                                 
-                                <option value="2" >
-                               محل کبیر
-                                </option>
-                                <option value="3" >
-                                    محل صغیر
-                                     </option>
+
+                               
+                                
 
                             </select>
                         </div>
+
                         <div class="col-lg-2 mg-t-20 mg-lg-t-0" id="type">
                             <p class="mg-b-10">تحديد الحالة</p><select class="form-control select2" name="status"
                                 >
@@ -195,21 +204,10 @@
                                         <td style="text-align: center;vertical-align: middle;">{{$x->company_name}} {{$x->product_name}} {{ $x->group_name }}</td>
                                         
                                         
+                                         <td style="text-align: center;vertical-align: middle;">{{$x->location_name}}</td>
                                         
                                         
-                                        @if($x->value_location==1){
-                                      <td style="text-align: center;vertical-align: middle;">المستودع</td>
-
-                                        }
-                                        @elseif ($x->value_location==2){
-                                      <td style="text-align: center;vertical-align: middle;">محل كبير</td>
-                                            
-                                        }
-                                        @else{
-                                      <td style="text-align: center;vertical-align: middle;">محل صغير</td>
-
-                                        }
-                                        @endif
+                                       
                                         <td style="text-align: center;vertical-align: middle;"> {{$x->status_name}}</td>
 
                                         <td style="text-align: center;vertical-align: middle;">@can('الارباح')  {{$x->primary_price}}@endcan</td>
@@ -423,9 +421,9 @@ aria-hidden="true">
                     <select name="location_id" id="location_id" class="form-control" required>
                         <option value="" selected disabled> --حدد الموقع--</option>
                        
-                            <option value="1">مسنودع</option>
-                            <option value="2">محل كبير</option>
-                            <option value="3">محل صغير</option>
+                            @foreach ($location as $my_location)
+                               <option value="{{$my_location->id }}"> {{ $my_location->location_name }}</option>
+                              @endforeach
                     </select>
                    
                     
