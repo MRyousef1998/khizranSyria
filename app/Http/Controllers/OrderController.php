@@ -13,7 +13,7 @@ use App\Models\ProductGroup;
 use App\Models\ProductCategory;
 use App\Models\Product;
 use App\Models\InvoicesDetails;
-
+use App\Models\Location;
 use App\Models\OrderDetail;
 use App\Models\ProductDetail;
 use App\Models\Status;
@@ -413,7 +413,7 @@ $order=Order::find($order_id);
 
         return view('order.order_product_code',compact('statuses',"productCategories",'exporter', 'importer','representative','order'));
   
-    
+     
     }
 
     public function order_prodect_code_serch(Request $request)
@@ -569,9 +569,9 @@ $order=Order::find($order_id);
         $importer = User::where('role_id','=',2)->get();
         $representative = User::where('role_id','=',3)->get();
 
-       
-
-        return view('my_product.add_product',compact('productCompanies','productCatgories','orders','status','exporter', 'importer','representative','orders'));
+       ///////////////////
+        $location=Location::all();
+        return view('my_product.add_product',compact('productCompanies','location','productCatgories','orders','status','exporter', 'importer','representative','orders'));
     }
     public function Status_Update(Request $request)
     { 

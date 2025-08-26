@@ -88,9 +88,6 @@
                                                     الطلبية</a></li>@endcan
                                             <li><a href="#tab5" class="nav-link active" data-toggle="tab">مكنات القهوة</a></li>
                                             
-                                            <li><a href="#tab6" class="nav-link" data-toggle="tab">المطاحن</a></li>
-                                            <li><a href="#tab7" class="nav-link" data-toggle="tab">قطع تبديل</a></li>
-                                            <li><a href="#tab13" class="nav-link" data-toggle="tab">مكنات غیر مستلمة</a></li>
                                             @can('الارباح') 
                                             <li><a href="#tab8" class="nav-link" data-toggle="tab">المرفقات</a></li>
                                             
@@ -113,24 +110,16 @@
                                                         <tr>
                                                             <th scope="row">رقم الطلبية</th>
                                                             <td>{{ $order->id }}</td>
-                                                             <th scope="row">توع الطلبية</th>
+                                                             <th scope="row">نوع الطلبية</th>
                                                             <td>{{ $order->category->category_name }}</td>
                                                             <th scope="row">المورد</th>
                                                             <td>{{ $order->importer->name  }}</td>
-                                                            <th scope="row">العميل</th>
-                                                            @if($order->representative_id!=null)
-                                                            <td>{{ $order->representative->name  }}</td>
-                                                            @else
-                                                              <td>لايوجد</td>
-                                                              @endif
+                                                          
                                                             <th scope="row">تاريخ الطلب</th>
                                                             <td>{{ $order->order_date }}</td>
-                                                            
-                                                           
-                                                        </tr>
-
-                                                        <tr>
-                                                            <th scope="row">الحالة الحالية</th>
+                                                              <th scope="row">تاريخ الوصول</th>
+                                                            <td>{{ $order->order_due_date }}</td>
+                                                               <th scope="row">الحالة الحالية</th>
                                                             @if ($order->status->id==2)
                                                                 <td><span
                                                                         class="badge badge-pill badge-success">{{ $order->status->status_name }}</span>
@@ -144,14 +133,21 @@
                                                                         class="badge badge-pill badge-warning">{{ $order->status->status_name }}</span>
                                                                 </td>
                                                             @endif
-                                                            <th scope="row">مبلغ العمولة</th>
+                                                        </tr>
+
+                                                        <tr>
+                                                        
+                                                            <th scope="row">مبلغ الشحن</th>
                                                             <td>{{ $order->Amount_Commission }}</td>
                                                             <th scope="row">الضرائب</th>
                                                             <td>{{ $order->Value_VAT }}</td>
+                                                               <th scope="row">قيمة  الطلبية المكتوبة</th>
+                                                            <td>{{ $order->Total  }}</td>
                                                             <th scope="row">التكلفة الاجمالية</th>
-                                                            <td>{{ $order->Total }}</td>
-                                                            <th scope="row">تاريخ الوصول</th>
-                                                            <td>{{ $order->order_due_date }}</td>
+                                                            <td>{{ $order->Total +$order->Value_VAT +$order->Amount_Commission }}.00</td>
+                                                                <th scope="row">قيمة  الطلبية المحسوبة</th>
+                                                            <td>{{ $order->writting_totale  }}</td>
+                                                          
                                                         </tr>
 
 
@@ -167,7 +163,7 @@
                                               
                         <table id="example" class="table key-buttons text-md-nowrap" data-page-length='50'>
                             <thead>
-                                <tr>
+                                <tr> 
                                     <th class="border-bottom-0" style="text-align: center;vertical-align: middle; " >رقم المنتج</th>
                                     <th class="border-bottom-0"  style="text-align: center;vertical-align: middle; background-color:rgb(97, 134, 255);">الشركة</th>
                                     <th class="border-bottom-0" style="text-align: center;vertical-align: middle; background-color:rgb(97, 134, 255);">اسم المنتج</th>
@@ -225,184 +221,12 @@
                                             </div>
                                         </div>
 
-                                        <div class="tab-pane" id="tab13">
-                                            <div class="table-responsive ">
-                                              
-                        <table id="example1" class="table key-buttons text-md-nowrap" data-page-length='50'>
-                            <thead>
-                                <tr>
-                                    <th class="border-bottom-0" style="text-align: center;vertical-align: middle; " >رقم المنتج</th>
-                                    <th class="border-bottom-0"  style="text-align: center;vertical-align: middle; background-color:rgb(97, 134, 255);">الشركة</th>
-                                    <th class="border-bottom-0" style="text-align: center;vertical-align: middle; background-color:rgb(97, 134, 255);">اسم المنتج</th>
-                                    <th class="border-bottom-0" style="text-align: center;vertical-align: middle; background-color:rgb(97, 134, 255);">الصنف</th>
-                                    
-                                    <th class="border-bottom-0" style="text-align: center;vertical-align: middle; background-color:rgb(97, 134, 255);">بلد المنشأ</th>
-                                    <th class="border-bottom-0" style="text-align: center;vertical-align: middle; background-color:rgb(97, 134, 255);">العدد </th>
-
-
-             
-
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php $i = 0; ?>
-                                @foreach ($unAriveMAchine as $x)
-                                    <?php $i++; ?>
-                                    <tr>
-                                        <td  style="text-align: center;vertical-align: middle; color:rgb(250, 246, 246);background-color:rgb(36, 111, 182);width:5" >{{ $i }}</td>
-                                        <td style="text-align: center;vertical-align: middle;">{{ $x->company_name }}</td>
-
-                                        <td style="text-align: center;vertical-align: middle;">
-                                            
-                                            <div class = "vertical"><div>
-                                                <img src="http://khaizran2.online/Attachments/{{ $x->id }}/{{ $x->image_name }}"  width="180"  height="120" /></div>
-                                                <div>
-                                                    {{ $x->product_name }}</div>
-                                            </div>
-
-                                            
-                                            </td>
-                                      
-                                        <td style="text-align: center;vertical-align: middle;">{{ $x->group_name }}</td>
-
-                                        <td style="text-align: center;vertical-align: middle; color:rgb(207, 14, 14); " >{{ $x->country_of_manufacture }}</td>
-                                        
-                                      
-                                        <td class="cart-product-quantity" width="130px" style="text-align: center;vertical-align: middle;">
-                                            <a class="modal-effect " data-effect="effect-scale" 
-                                            data-id="{{ $x->id }}" data-order_id="{{ $id }}"
-                                            data-toggle="modal" href="#modaldemo9" >{{ $x->aggregate }}</a>
-                                    </td>
-                                       
                                       
 
-                                      
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                  
-                                                
+                                     
 
 
-                                            </div>
-                                        </div>
-
-                                                     <div class="tab-pane" id="tab6">
-                                            <div class="table-responsive ">
-                                              
-                        <table id="example2" class="table key-buttons text-md-nowrap" data-page-length='50'>
-                            <thead>
-                                <tr>
-                     <th class="border-bottom-0" style="text-align: center;vertical-align: middle; " >رقم المنتج</th>
-                                    <th class="border-bottom-0"  style="text-align: center;vertical-align: middle; background-color:rgb(97, 134, 255);">الشركة</th>
-                                    <th class="border-bottom-0" style="text-align: center;vertical-align: middle; background-color:rgb(97, 134, 255);">اسم المنتج</th>
-                                    <th class="border-bottom-0" style="text-align: center;vertical-align: middle; background-color:rgb(97, 134, 255);">الصنف</th>
-                                    
-                                    <th class="border-bottom-0" style="text-align: center;vertical-align: middle; background-color:rgb(97, 134, 255);">بلد المنشأ</th>
-                                    <th class="border-bottom-0" style="text-align: center;vertical-align: middle; background-color:rgb(97, 134, 255);">العدد </th>
-
-
-                                  
-
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php $i = 0; ?>
-                                @foreach ($grinders as $x)
-                                    <?php $i++; ?>
-                                    <tr>
-                                        <td  style="text-align: center;vertical-align: middle;color:rgb(250, 246, 246);background-color:rgb(36, 111, 182);width:5" >{{ $i }}</td>
-                                        <td style="text-align: center;vertical-align: middle;">{{ $x->company_name }}</td>
-
-                                        <td style="text-align: center;vertical-align: middle;">
-                                            
-                                            <div class = "vertical"><div>
-                                                <img src="http://khaizran2.online/Attachments/{{ $x->id }}/{{ $x->image_name }}"  width="180"  height="120" /></div>
-                                                <div>
-                                                    {{ $x->product_name }}</div>
-                                            </div>
-
-                                            
-                                            </td>
-                                      
-                                        <td style="text-align: center;vertical-align: middle;">{{ $x->group_name }}</td>
-
-                                        <td style="text-align: center;vertical-align: middle; color:rgb(207, 14, 14); " >{{ $x->country_of_manufacture }}</td>
-                                       
-
-                                         <td class="cart-product-quantity" width="130px" style="text-align: center;vertical-align: middle;">
-                                            <a class="modal-effect " data-effect="effect-scale" 
-                                            data-id="{{ $x->id }}" data-order_id="{{ $id }}"
-                                            data-toggle="modal" href="#modaldemo9" >{{ $x->aggregate }}</a>
-                                    </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                                            </div>
-                                        </div>
-
-
-                         <div class="tab-pane" id="tab7">
-                                            <div class="table-responsive ">
-                                              
-                        <table id="example-delete" class="table key-buttons text-md-nowrap" data-page-length='50'>
-                            <thead>
-                                <tr>
-                              <th class="border-bottom-0" style="text-align: center;vertical-align: middle; " >رقم المنتج</th>
-                                    <th class="border-bottom-0"  style="text-align: center;vertical-align: middle; background-color:rgb(97, 134, 255);">الشركة</th>
-                                    <th class="border-bottom-0" style="text-align: center;vertical-align: middle; background-color:rgb(97, 134, 255);">اسم المنتج</th>
-                                    <th class="border-bottom-0" style="text-align: center;vertical-align: middle; background-color:rgb(97, 134, 255);">الصنف</th>
-                                    
-                                    <th class="border-bottom-0" style="text-align: center;vertical-align: middle; background-color:rgb(97, 134, 255);">بلد المنشأ</th>
-                                    <th class="border-bottom-0" style="text-align: center;vertical-align: middle; background-color:rgb(97, 134, 255);">العدد </th>
-
-
-
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php $i = 0; ?>
-                                @foreach ($parts as $x)
-                                    <?php $i++; ?>
-                                    <tr>
-                                        <td  style="text-align: center;vertical-align: middle; background-color:rgb(11, 107, 16);width:5" >{{ $i }}</td>
-                                        <td style="text-align: center;vertical-align: middle;">{{ $x->company_name }}</td>
-
-                                        <td style="text-align: center;vertical-align: middle;">
-                                            
-                                            <div class = "vertical"><div>
-                                                <img src="http://khaizran2.online/Attachments/{{ $x->id }}/{{ $x->image_name }}"  width="180"  height="120" /></div>
-                                                <div>
-                                                    {{ $x->product_name }}</div>
-                                            </div>
-
-                                            
-                                            </td>
-                                      
-                                        <td style="text-align: center;vertical-align: middle;">{{ $x->group_name }}</td>
-
-                                        <td style="text-align: center;vertical-align: middle; color:rgb(207, 14, 14); " >{{ $x->country_of_manufacture }}</td>
-                                        
-                                        
-
-  <td class="cart-product-quantity" width="130px" style="text-align: center;vertical-align: middle;">
-                                            <a class="modal-effect " data-effect="effect-scale" 
-                                            data-id="{{ $x->id }}" data-order_id="{{ $id }}"
-                                            data-toggle="modal" href="#modaldemo9" >{{ $x->aggregate }}</a>
-                                    </td>
-                                      
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                  
-                                                
-
-
-                                            </div>
-                                        </div>
+                      
                                                 <!-- -->
                                                 <div class="tab-pane " id="tab9">
                                                     <div class="d-flex justify-content-between">

@@ -60,7 +60,7 @@ $invoice=Invoice::where('orders_id',$order_id)->first();
         $importer = User::where('role_id','=',2)->get();
         $representative = User::where('role_id','=',3)->get();
 
-       
+        
 
         return view('invoices.add_invoice',compact('invoice_category','invoice','order','exporter', 'importer','representative'));
 

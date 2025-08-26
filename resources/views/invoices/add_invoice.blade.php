@@ -63,11 +63,11 @@
 
                            <div class="col">
                           
-                            @if ($invoice_category->id == 1)
-                            <label for="inputName" class="control-label">المطلوب من السيد</label>
-                        
+                            @if ($invoice_category->id ==1 )
+                           
+                         <label for="inputName" class="control-label">المورد</label>
                         @else
-                        <label for="inputName" class="control-label">المورد</label>
+                        <label for="inputName" class="control-label">المطلوب من السيد</label>
                         @endif
 
                                 
@@ -91,7 +91,7 @@
                         <div class="row">
                           
                             <div class="col">
-                                <label for="inputName" class="control-label">القيمة الاساسية للفاتورة </label>
+                                <label for="inputName" class="control-label">القيمة المكتوبة الاساسية للفاتورة  </label>
                                 <input type="text" class="form-control form-control-lg" id="Amount_collection"
                                     name="Amount_collection" value="{{$order->Total}}"
                                     readonly>
@@ -105,7 +105,7 @@
                             </div>
                             <div class="col">
                                 <label for="inputName" class="control-label">القیمة النهائية </label>
-                                <input type="text" value="{{$order->Total}}" class="form-control" id="Total" name="Total" readonly>
+                                <input type="text" value="{{$order->Total-$invoice->Discount}}" class="form-control" id="Total" name="Total" readonly>
                             </div>
                         
 

@@ -53,7 +53,7 @@
                             <div class="col">
                                          <label for="inputName" class="control-label">طلبية استيرادها </label>
                                 <select name="productorder" class="form-control SlectBox" 
-                                   >
+                                   required>
                                     <!--placeholder-->
                                     <option value="" selected disabled>حدد الطلبية</option>
                                     @foreach ($orders as $order)
@@ -98,7 +98,7 @@
                             <div class="col">
                                 <label for="inputName" class="control-label"  onclick="console.log($(this).val())"
                                 onchange="console.log('change is firing')">المنتج</label>
-                                <select id="product" name="product" class="form-control select2">
+                                <select id="product" name="product" class="form-control select2" required>
                                     <option value="" selected disabled>حدد  منتج</option>
                                 </select>
                             </div>
@@ -152,7 +152,7 @@
                                 <select name="status" id="status" class="form-control" onchange="myFunction()" required>
                                     <!--placeholder-->
                                     @foreach ($status as $statu)
-                                        <option value="{{ $statu->id }}"> {{ $statu->status_name }}</option>
+                                        <option value="{{ $statu->id }}" > {{ $statu->status_name }}</option>
                                     @endforeach
 
 
@@ -190,21 +190,12 @@
                                 <label for="inputName" class="control-label">مكان التواجد   </label>
                                 <select name="product_location" id="product_location" class="form-control" required>
                                     <!--placeholder-->
-                                    <option value="1" >
-                                    الافنراضي
-                                </option>
-                                <option value="1" >
-                                    المستودع
-                                </option>
-                                <option value="2" >
-                                   محل فرقان 
-                                </option>
-                                <option value="3" >
-                                    محل الكرة
-                                </option>
-                                <option value="4" >
-                                    محل الورشة
-                                </option>
+                                     <option value="" selected disabled>حدد  الحالة</option>
+                                    @foreach ($location as $my_location)
+                                
+                               <option value="{{$my_location->id }}" > {{ $my_location->location_name }}</option>
+                              
+                            @endforeach
 
 
                                 </select>
