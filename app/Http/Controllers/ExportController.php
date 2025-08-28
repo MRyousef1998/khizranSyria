@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
-
+use App\Models\Location;
 
 use App\Models\ProductCompany;
 use App\Models\ProductGroup;
@@ -126,7 +126,7 @@ class ExportController extends Controller
            
         
      
-        $products=json_decode($request->my_hidden_input);
+        //$products=json_decode($request->my_hidden_input);
        
       
       
@@ -145,7 +145,7 @@ class ExportController extends Controller
         
             Order::create([
              'order_date' => $request->order_Date,
-             'order_due_date' => $request->Due_date,
+             'order_due_date' => $request->order_Date,
              
              'exported_id' => $request->exporter,
              'representative_id' => $request->clint,
@@ -154,10 +154,10 @@ class ExportController extends Controller
              'image_name' => $fileName,
 
              'category_id' => $request->order_category,
-             'Amount_Commission' => $request->Amount_Commission,
-             'Value_VAT' => $request->Value_VAT,
+             'Amount_Commission' => 0,
+             'Value_VAT' =>0,
 
-             'Total' => $request->Total,
+             'Total' => 0,
 
 
 
@@ -168,7 +168,7 @@ class ExportController extends Controller
      
      $request->pic->move(public_path('Attachments/' . $order_id ), $fileName);
      ////
-     if($products == null){
+   
 
 
         $newInvoice =  Invoice::create([
@@ -189,48 +189,9 @@ class ExportController extends Controller
         ]);
         session()->flash('Add', ' تم اضافة الطلبية بنجاح قم بإضاقة المنتجات وحرر الفاتورة');
              return redirect('ExportOrderDetails/'. $order_id);
-    }
     
-     foreach($products as $product)
+    
      
-     { 
-         
-         for($i=0 ;$i<$product->qty;$i++ ){
-       
-         $allProducts =Product::where("product_details_id", $product->id)->where("selling_date", null) ->get();
-         
-         $Olderproduct=Product::where("product_details_id", $product->id)->where("selling_date", null) ->first();
-         $importOrderOldProdect=$Olderproduct->order()->get();
-         $olderdate=$importOrderOldProdect[0]->order_due_date;
-         $olderProductId=$Olderproduct->id;
-         foreach($allProducts as $currentProduct){
-             $importOrdeForCurrentProdect=$currentProduct->order()->get();
-         $currentdate=$importOrdeForCurrentProdect[0]->order_due_date;
-         if($olderdate>$currentdate)
-         {
-             $olderdate=$currentdate;
-             $Olderproduct=$currentProduct;
-             $olderProductId=$currentProduct->id;
-         }
-         
-        
-         }
-         $Olderproduct->update([
-            'selling_date' => Carbon::today(),
-            'selling_price' => $product->price,
-            'selling_price_with_comm' => $product->price+$product->commission_pice,
-
-    
-    
-            ]);
-         $Olderproduct->order()->attach($order_id);
-
-
-       
- 
-       }
-    
-    }
           
 
      
@@ -599,57 +560,57 @@ if($order->category_id==4){
         $importer = User::where('role_id','=',2)->get();
         $representative = User::where('role_id','=',3)->get();
 
-        $machines =DB::table('products')->
-        leftJoin('product_details', 'product_details.id', '=', 'products.product_details_id')->leftJoin('product_groups', 'product_details.group_id', '=', 'product_groups.id')->leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
-        ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id')
-         ->Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id", 1)->where("products.selling_date", null)->where("products.statuses_id",'!=',7)->where("products.statuses_id",'!=',8)->where("products.statuses_id",'!=',4)
-        ->selectRaw('product_details.id,company_name,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,product_details.image_name')
-        ->groupBy('product_details.id','company_name','product_name','country_of_manufacture','group_name','product_details.image_name')->get();
+        // $machines =DB::table('products')->
+        // leftJoin('product_details', 'product_details.id', '=', 'products.product_details_id')->leftJoin('product_groups', 'product_details.group_id', '=', 'product_groups.id')->leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
+        // ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id')
+        //  ->Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id", 1)->where("products.selling_date", null)->where("products.statuses_id",'!=',7)->where("products.statuses_id",'!=',8)->where("products.statuses_id",'!=',4)
+        // ->selectRaw('product_details.id,company_name,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,product_details.image_name')
+        // ->groupBy('product_details.id','company_name','product_name','country_of_manufacture','group_name','product_details.image_name')->get();
        
 
-        $grinder =DB::table('products')->
-        leftJoin('product_details', 'product_details.id', '=', 'products.product_details_id')->leftJoin('product_groups', 'product_details.group_id', '=', 'product_groups.id')->leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
-        ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id') ->Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id", 2)->where("products.selling_date", null)->where("products.statuses_id",'!=',7)->where("products.statuses_id",'!=',8)
-        ->selectRaw('product_details.id,company_name,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,product_details.image_name')
-        ->groupBy('product_details.id','company_name','product_name','country_of_manufacture','group_name','product_details.image_name')->get();
-        $parts =DB::table('products')->
-        leftJoin('product_details', 'product_details.id', '=', 'products.product_details_id')->leftJoin('product_groups', 'product_details.group_id', '=', 'product_groups.id')->leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
-        ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id') ->Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id", 3)->where("products.selling_date", null)->where("products.statuses_id",'!=',7)
-        ->selectRaw('product_details.id,company_name,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,product_details.image_name')
-        ->groupBy('product_details.id','company_name','product_name','country_of_manufacture','group_name','product_details.image_name')->get();
+        // $grinder =DB::table('products')->
+        // leftJoin('product_details', 'product_details.id', '=', 'products.product_details_id')->leftJoin('product_groups', 'product_details.group_id', '=', 'product_groups.id')->leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
+        // ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id') ->Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id", 2)->where("products.selling_date", null)->where("products.statuses_id",'!=',7)->where("products.statuses_id",'!=',8)
+        // ->selectRaw('product_details.id,company_name,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,product_details.image_name')
+        // ->groupBy('product_details.id','company_name','product_name','country_of_manufacture','group_name','product_details.image_name')->get();
+        // $parts =DB::table('products')->
+        // leftJoin('product_details', 'product_details.id', '=', 'products.product_details_id')->leftJoin('product_groups', 'product_details.group_id', '=', 'product_groups.id')->leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
+        // ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id') ->Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id", 3)->where("products.selling_date", null)->where("products.statuses_id",'!=',7)
+        // ->selectRaw('product_details.id,company_name,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,product_details.image_name')
+        // ->groupBy('product_details.id','company_name','product_name','country_of_manufacture','group_name','product_details.image_name')->get();
 
-        $broken_machines =DB::table('products')->
-        leftJoin('product_details', 'product_details.id', '=', 'products.product_details_id')->leftJoin('product_groups', 'product_details.group_id', '=', 'product_groups.id')->leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
-        ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id')
-         ->Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id", 1)->where("products.selling_date", null)->where("products.statuses_id",'=',7)
-        ->selectRaw('product_details.id,company_name,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,product_details.image_name')
-        ->groupBy('product_details.id','company_name','product_name','country_of_manufacture','group_name','product_details.image_name')->get();
+        // $broken_machines =DB::table('products')->
+        // leftJoin('product_details', 'product_details.id', '=', 'products.product_details_id')->leftJoin('product_groups', 'product_details.group_id', '=', 'product_groups.id')->leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
+        // ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id')
+        //  ->Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id", 1)->where("products.selling_date", null)->where("products.statuses_id",'=',7)
+        // ->selectRaw('product_details.id,company_name,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,product_details.image_name')
+        // ->groupBy('product_details.id','company_name','product_name','country_of_manufacture','group_name','product_details.image_name')->get();
        
        
-        $broken_grinder =DB::table('products')->
-        leftJoin('product_details', 'product_details.id', '=', 'products.product_details_id')->leftJoin('product_groups', 'product_details.group_id', '=', 'product_groups.id')->leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
-        ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id') ->Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id", 2)->where("products.selling_date", null)->where("products.statuses_id",'=',7)
-        ->selectRaw('product_details.id,company_name,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,product_details.image_name')
-        ->groupBy('product_details.id','company_name','product_name','country_of_manufacture','group_name','product_details.image_name')->get();
+        // $broken_grinder =DB::table('products')->
+        // leftJoin('product_details', 'product_details.id', '=', 'products.product_details_id')->leftJoin('product_groups', 'product_details.group_id', '=', 'product_groups.id')->leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
+        // ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id') ->Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id", 2)->where("products.selling_date", null)->where("products.statuses_id",'=',7)
+        // ->selectRaw('product_details.id,company_name,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,product_details.image_name')
+        // ->groupBy('product_details.id','company_name','product_name','country_of_manufacture','group_name','product_details.image_name')->get();
        
        
-        $machinesRenew =DB::table('products')->
-        leftJoin('product_details', 'product_details.id', '=', 'products.product_details_id')->leftJoin('product_groups', 'product_details.group_id', '=', 'product_groups.id')->leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
-        ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id')
-         ->Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id", 1)->where("products.selling_date", null)->where("products.statuses_id",'=',8)
-        ->selectRaw('product_details.id,company_name,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,product_details.image_name')
-        ->groupBy('product_details.id','company_name','product_name','country_of_manufacture','group_name','product_details.image_name')->get();
+        // $machinesRenew =DB::table('products')->
+        // leftJoin('product_details', 'product_details.id', '=', 'products.product_details_id')->leftJoin('product_groups', 'product_details.group_id', '=', 'product_groups.id')->leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
+        // ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id')
+        //  ->Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id", 1)->where("products.selling_date", null)->where("products.statuses_id",'=',8)
+        // ->selectRaw('product_details.id,company_name,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,product_details.image_name')
+        // ->groupBy('product_details.id','company_name','product_name','country_of_manufacture','group_name','product_details.image_name')->get();
        
-        $grindersRenew =DB::table('products')->
-        leftJoin('product_details', 'product_details.id', '=', 'products.product_details_id')->leftJoin('product_groups', 'product_details.group_id', '=', 'product_groups.id')->leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
-        ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id')
-         ->Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id", 2)->where("products.selling_date", null)->where("products.statuses_id",'=',8)
-        ->selectRaw('product_details.id,company_name,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,product_details.image_name')
-        ->groupBy('product_details.id','company_name','product_name','country_of_manufacture','group_name','product_details.image_name')->get();
+        // $grindersRenew =DB::table('products')->
+        // leftJoin('product_details', 'product_details.id', '=', 'products.product_details_id')->leftJoin('product_groups', 'product_details.group_id', '=', 'product_groups.id')->leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
+        // ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id')
+        //  ->Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id", 2)->where("products.selling_date", null)->where("products.statuses_id",'=',8)
+        // ->selectRaw('product_details.id,company_name,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,product_details.image_name')
+        // ->groupBy('product_details.id','company_name','product_name','country_of_manufacture','group_name','product_details.image_name')->get();
        
-       
+        
 
-        return view('order.export_order.add_export_order',compact('grinder','grindersRenew','parts','machines','machinesRenew','broken_machines','broken_grinder','importClints','clients','productDetail','status','exporter', 'importer','representative'));
+        return view('order.export_order.add_export_order',compact('importClints','clients','productDetail','status','exporter', 'importer','representative'));
     }
 
     public function exporterOrders($id)
@@ -675,7 +636,7 @@ if($order->category_id==4){
         $productCompanies=ProductCompany::all();
        $productCatgories=ProductCategory::all();
        
-        
+        $location=Location::all();
         $productDetail = ProductDetail::all();
         $productCompanies = ProductCompany::all();
         $productCatgories= ProductCategory::all();
@@ -688,7 +649,8 @@ if($order->category_id==4){
 
         $typeproductStatus=null;
         $typeOrder=null;
-        return view('order.export_order.add_product_to_order',compact('order_id','typeOrder','typeproductStatus','importOrder','productCatgories','productCompanies','productGroupes','status','exporter', 'importer','representative','orders'));
+        $typeproductLocation=null;
+        return view('order.export_order.add_product_to_order',compact('order_id','typeproductLocation','typeOrder','location','typeproductStatus','importOrder','productCatgories','productCompanies','productGroupes','status','exporter', 'importer','representative','orders'));
     }
     public function add_produ_to_order_bycode($order_id)
     {

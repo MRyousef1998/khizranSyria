@@ -42,6 +42,7 @@ $location=Location::all();
  $importer = User::where('role_id','=',2)->get();
  $representative = User::where('role_id','=',3)->get();
 $typeproductLocation=null;
+
  return view('my_product.machine',compact('id','location','typeproductLocation','exporter', 'importer','representative','productGroupes','productCompanies','productCatgories'));
     
  
@@ -1131,6 +1132,7 @@ $myInvoice ->update([
   public function machine_serch_to_export_order(Request $request)
   { 
    
+     
      if($request->importOrder!=null){
 
 
@@ -1287,7 +1289,7 @@ $myInvoice ->update([
 
 
           
-
+$location=Location::all();
 $productGroupes=ProductGroup::where("id",'!=',$request->productGroup)->get();
 $productCompanies=ProductCompany::where("id",'!=',$request->productCompany)->get();
 $productCatgories=ProductCategory::where("id",'!=',$request->productCatgory)->get();
@@ -1305,9 +1307,9 @@ $id=$request->productCatgory;
 $exporter = User::where('role_id','=',1)->get();
 $importer = User::where('role_id','=',2)->get();
 $representative = User::where('role_id','=',3)->get();
-
+$typeproductLocation=Location::find($request->productCatgory);
 $order_id=$request->order_id;
-return view('order.export_order.add_product_to_order',compact('order_id','typeOrder','importOrder','typeproductStatus','status','typeproductCatgories','typeproductCompanies','typeproductGroupes','id','machines','exporter', 'importer','representative','productGroupes','productCompanies','productCatgories'));
+return view('order.export_order.add_product_to_order',compact('order_id','typeproductLocation','location','typeOrder','importOrder','typeproductStatus','status','typeproductCatgories','typeproductCompanies','typeproductGroupes','id','machines','exporter', 'importer','representative','productGroupes','productCompanies','productCatgories'));
 
   
 
@@ -1322,7 +1324,7 @@ return view('order.export_order.add_product_to_order',compact('order_id','typeOr
 
  public function machine_serch_to_export_order_bycode(Request $request)
   { 
-   return $request;
+   
      if($request->importOrder!=null){
 
 

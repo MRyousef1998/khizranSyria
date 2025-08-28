@@ -130,7 +130,8 @@
 
 
                         <div class="col-lg-2 mg-t-20 mg-lg-t-0" id="type">
-                            <p class="mg-b-10">تحديد مكان التواجد</p><select class="form-control select2" name="product_location"
+                            <p class="mg-b-10">تحديد مكان التواجد</p>
+                            <select class="form-control select2" name="product_location"
                                 >
                                   <option value="{{ null }}" selected >
                                     {{ 'الکل' }}
