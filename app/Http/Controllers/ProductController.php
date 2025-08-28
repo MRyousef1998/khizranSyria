@@ -14,7 +14,7 @@ use App\Models\Status;
 
 use Illuminate\Support\Facades\DB;
 
-
+use App\Models\Payment;
 use App\Models\ProductCompany;
 use App\Models\ProductGroup;
 use App\Models\User;
@@ -266,7 +266,19 @@ $id=$request->productCatgory;
         //       }
 
             $order_id = $request->productorder;
-     
+             $order=Order::find($order_id);
+             $order_cost=$order->Total;
+           
+        $total_payments=Payment::where("orders_id", $order_id)->where("representative_id", '=',null)->selectRaw('sum(amount) as total')
+        ->groupBy('orders_id')->get(); 
+ if ($total_payments->isEmpty()==true) {
+
+    $total_charge=0;}
+else{
+$total_charge=  $total_payments[0]->total;
+} 
+
+    
             //$request->pic->move(public_path('Attachments/' . $order_id ), $fileName);
              for($i=0;$i<$request->qountity;$i++){
                    $newproduct =  Product::create([
@@ -279,13 +291,14 @@ $id=$request->productCatgory;
                        'note' =>$request->note ,
                        
                       
-                       'selling_price'=>($request->primary_price+(($request->primary_price)*50)/100),
+                       'price_with_comm'=>($request->primary_price+(($request->primary_price)*$total_charge)/$order_cost),
+                       'selling_price'=>($request->primary_price+(($request->primary_price)*$total_charge)/$order_cost),
                        'location_id' => $request->product_location,
           
                
                    ]);
                    $newproduct->order()->attach($order_id);
-                   $order = Order::find($order_id);
+              
                     // $order->Amount_Commission =  ($order->Amount_Commission)+(($request->Amount_Commission)*$myCarancyMull);
                     $order->writting_totale =  ($order->writting_totale)+(($request->primary_price));
 

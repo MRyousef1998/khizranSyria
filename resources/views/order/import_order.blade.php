@@ -158,9 +158,9 @@
 
 
                                     <th class="border-bottom-0">تاريخ الوصول</th>
-                                    <th class="border-bottom-0">العمولة</th>
-                                    <th class="border-bottom-0">الضريبة</th>
-                                    <th class="border-bottom-0">التكلفة الاجمالية</th>
+                                    <th class="border-bottom-0">تكلفة الشحن</th>
+                                    <th class="border-bottom-0">الجمرك</th>
+                                    <th class="border-bottom-0">التكلفة الاجماليةالمكتوبة </th>
 
 
                                     

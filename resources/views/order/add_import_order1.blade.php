@@ -142,20 +142,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                                 <div class="col">
-                                <label for="inputName" class="control-label">الحالة   </label>
-                                <select name="status" id="status" class="form-control"  required>
-                                    <!--placeholder-->
-                                    <option value="" selected disabled>حدد الحالة </option>
-                                     @foreach ($status as $statu)
-                                        <option value="{{ $statu->id }}" selected> {{ $statu->status_name }}</option>
-                                    @endforeach
-
-
-
-
-                                </select>
-                            </div>
+                                
 
                               <!-- <div class="col">
                                 <label for="inputName" class="control-label">حدد العميل </label>
@@ -222,6 +209,20 @@
                       
                    </div> -->
                    <div class="row">
+                     <div class="col">
+                                <label for="inputName" class="control-label">الحالة   </label>
+                                <select name="status" id="status" class="form-control"  required>
+                                    <!--placeholder-->
+                                    <option value="" selected disabled>حدد الحالة </option>
+                                     @foreach ($status as $statu)
+                                        <option value="{{ $statu->id }}" selected> {{ $statu->status_name }}</option>
+                                    @endforeach
+
+
+
+
+                                </select>
+                            </div>
                             <div class="col">
                                 <label for="inputName" class="control-label">سعر الشراء</label>
                                 <input type="text" class="form-control form-control-lg" id="total"
@@ -230,18 +231,7 @@
                                      value=0 required>
                             </div>
                             
-                            <div class="col">
-                                <label for="inputName" class="control-label" >قيمة ضريبة القيمة المضافة</label>
-                                <input type="text" class="form-control form-control-lg" id="Value_VAT" name="Value_VAT" value=0 oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-                            </div>
-
-                          <div class="col">
-                                <label for="inputName" class="control-label">مبلغ الشحن</label>
-                                <input type="text" class="form-control form-control-lg" id="Amount_Commission"
-                                    name="Amount_Commission" title="يرجي ادخال مبلغ العمولة "
-                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
-                                    required value=0>
-                            </div>
+                           
                         </div>
                         
 

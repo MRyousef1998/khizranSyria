@@ -131,20 +131,40 @@ class PaymentController extends Controller
             'pay_date' =>  Carbon::today(),
    
         ]);
-        $order=Order::find($request->order_id)->importer->name;
-        AccountStatement::create([
-            'purpose' =>"مصروف کونتینر".$order,
-            'account_statement_types_id' => 1,
-            
-            'amount' => $request->amount_payments,
-            'note' => $request->note,
-            'user_id' =>(Auth::user()->id),
+           
+        $total_payments=Payment::where("orders_id", $request->order_id)->where("representative_id", '=',null)->selectRaw('sum(amount) as total')
+        ->groupBy('orders_id')->get(); 
+ if ($total_payments->isEmpty()==true) {
 
-            //'palance_after_this' => $fileName,
+    $total_charge=0;}
+else{
+$total_charge=  $total_payments[0]->total;
+} 
+        $order=Order::find($request->order_id);
+        $order_cost=$order->Total;
+foreach ($order->product as $product) {
+    $newPrice = $product->primary_price + (($product->primary_price * $total_charge) / $order_cost);
 
-            'pay_date' =>  Carbon::today(),
+    $product->update([
+        'price_with_comm' => $newPrice,
+        'selling_price'   => $newPrice,
+    ]);
+}
   
-        ]);
+        // $order=Order::find($request->order_id)->importer->name;
+        // AccountStatement::create([
+        //     'purpose' =>"مصروف کونتینر".$order,
+        //     'account_statement_types_id' => 1,
+            
+        //     'amount' => $request->amount_payments,
+        //     'note' => $request->note,
+        //     'user_id' =>(Auth::user()->id),
+
+        //     //'palance_after_this' => $fileName,
+
+        //     'pay_date' =>  Carbon::today(),
+  
+        // ]);
         session()->flash('success', ' تم اضافة الدفعة  بنجاح');
 
         return redirect("order_report/".$request->order_id);

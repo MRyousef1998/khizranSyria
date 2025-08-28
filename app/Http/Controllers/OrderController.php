@@ -167,8 +167,8 @@ class OrderController extends Controller
              'image_name' => $fileName,
 
              'category_id' => $request->order_category,
-             'Amount_Commission' => ($request->Amount_Commission),
-             'Value_VAT' => ($request->Value_VAT),
+             'Amount_Commission' => 0,
+             'Value_VAT' => 0,
 
              'Total' => ($request->total),
 
@@ -183,60 +183,60 @@ class OrderController extends Controller
           session()->flash('Add', ' تم اضافة الطلبية بنجاح قم بإضاقة المنتجات وحرر الفاتورة');
 
             // add payment for transfar 
-            if($request->Amount_Commission != 0){
-       Payment::create([
+//             if($request->Amount_Commission != 0){
+//        Payment::create([
            
-            'amount' => $request->Amount_Commission,
-            'note' => "رسوم شحن",
-            'orders_id' =>$order_id,
+//             'amount' => $request->Amount_Commission,
+//             'note' => "رسوم شحن",
+//             'orders_id' =>$order_id,
          
-            //'palance_after_this' => $fileName,
+//             //'palance_after_this' => $fileName,
 
-            'pay_date' =>  Carbon::today(),
+//             'pay_date' =>  Carbon::today(),
    
-        ]);
-        $order=Order::find($order_id)->importer->name;
-        AccountStatement::create([
-            'purpose' =>"مصروف کونتینر رسوم شحن".$order,
-            'account_statement_types_id' => 1,
+//         ]);
+//         $order=Order::find($order_id)->importer->name;
+//         AccountStatement::create([
+//             'purpose' =>"مصروف کونتینر رسوم شحن".$order,
+//             'account_statement_types_id' => 1,
             
-            'amount' => $request->Amount_Commission,
-            'note' => "رسوم شحن",
-            'user_id' =>(Auth::user()->id),
+//             'amount' => $request->Amount_Commission,
+//             'note' => "رسوم شحن",
+//             'user_id' =>(Auth::user()->id),
 
-            //'palance_after_this' => $fileName,
+//             //'palance_after_this' => $fileName,
 
-            'pay_date' =>  Carbon::today(),
+//             'pay_date' =>  Carbon::today(),
   
-        ]);
-    }
-if($request->Value_VAT != 0){
-  Payment::create([
+//         ]);
+//     }
+// if($request->Value_VAT != 0){
+//   Payment::create([
            
-            'amount' => $request->Value_VAT,
-            'note' => "رسوم تخليص",
-            'orders_id' =>$order_id,
+//             'amount' => $request->Value_VAT,
+//             'note' => "رسوم تخليص",
+//             'orders_id' =>$order_id,
          
-            //'palance_after_this' => $fileName,
+//             //'palance_after_this' => $fileName,
 
-            'pay_date' =>  Carbon::today(),
+//             'pay_date' =>  Carbon::today(),
    
-        ]);
+//         ]);
        
-        AccountStatement::create([
-            'purpose' =>"مصروف کونتینر رسوم تخليص".$order,
-            'account_statement_types_id' => 1,
+//         AccountStatement::create([
+//             'purpose' =>"مصروف کونتینر رسوم تخليص".$order,
+//             'account_statement_types_id' => 1,
             
-            'amount' => $request->Value_VAT,
-            'note' => "رسوم تخليص",
-            'user_id' =>(Auth::user()->id),
+//             'amount' => $request->Value_VAT,
+//             'note' => "رسوم تخليص",
+//             'user_id' =>(Auth::user()->id),
 
-            //'palance_after_this' => $fileName,
+//             //'palance_after_this' => $fileName,
 
-            'pay_date' =>  Carbon::today(),
+//             'pay_date' =>  Carbon::today(),
   
-        ]);
-    }
+//         ]);
+//     }
 
        $newInvoice =  Invoice::create([
             'invoice_Date' =>  Carbon::today(),
@@ -432,7 +432,7 @@ $order=Order::find($order_id);
             leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
             ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id')
             ->leftJoin('boxes', 'products.box_id', '=','boxes.id') ->
-          
+           leftJoin('locations', 'products.location_id', '=', 'locations.id')->
             Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id",$request->productCatgory)->where("order_product.orders_id", $request->order_id)
             ->get();
            
@@ -446,7 +446,7 @@ $order=Order::find($order_id);
             leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
             ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id')
             ->leftJoin('boxes', 'products.box_id', '=','boxes.id') ->
-          
+           leftJoin('locations', 'products.location_id', '=', 'locations.id')->
             Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id",$request->productCatgory)->where("order_product.orders_id", $request->order_id)
             ->where("products.selling_date", '=',null)->get();
            
@@ -460,7 +460,7 @@ $order=Order::find($order_id);
             leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
             ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id')
             ->leftJoin('boxes', 'products.box_id', '=','boxes.id') ->
-          
+           leftJoin('locations', 'products.location_id', '=', 'locations.id')->
             Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id",$request->productCatgory)->where("order_product.orders_id", $request->order_id)
             ->where("products.selling_date", '!=',null)->get();
            
@@ -477,7 +477,7 @@ $order=Order::find($order_id);
             leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
             ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id')
             ->leftJoin('boxes', 'products.box_id', '=','boxes.id') ->
-          
+           leftJoin('locations', 'products.location_id', '=', 'locations.id')->
             Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id",$request->productCatgory)->where("order_product.orders_id", $request->order_id)
             ->where("statuses.id", '=',$request->status)->get();
            
@@ -491,7 +491,8 @@ $order=Order::find($order_id);
                 leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
                 ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id')
                 ->leftJoin('boxes', 'products.box_id', '=','boxes.id') ->
-              
+               leftJoin('locations', 'products.location_id', '=', 'locations.id')->
+                leftJoin('locations', 'products.location_id', '=', 'locations.id')->
                 Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id",$request->productCatgory)->where("order_product.orders_id", $request->order_id)
                 ->where("products.selling_date", '=',null)->where("statuses.id", '=',$request->status)->get();
                 $typeSeleingId=1;
@@ -505,6 +506,7 @@ $order=Order::find($order_id);
                 leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
                 ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id')
                 ->leftJoin('boxes', 'products.box_id', '=','boxes.id') ->
+                 leftJoin('locations', 'products.location_id', '=', 'locations.id')->
               
                 Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id",$request->productCatgory)->where("order_product.orders_id", $request->order_id)
                 ->where("products.selling_date", '!=',null)->where("statuses.id", '=',$request->status)->get();

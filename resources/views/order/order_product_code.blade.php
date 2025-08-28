@@ -155,17 +155,18 @@
                         <table id="example" class="table key-buttons text-md-nowrap" >
                             <thead>
                                 <tr>
-                                    <th class="border-bottom-0"  style="text-align: center;vertical-align: middle;  " >کود المنتج</th>
+                                    <th class="border-bottom-0"  style="text-align: center;vertical-align: middle;  " > کود المنتج الخاص</th>
+                                    <th class="border-bottom-0"  style="text-align: center;vertical-align: middle;  " >کود المنتج العام</th>
                                     <th class="border-bottom-0"  style="text-align: center;vertical-align: middle;  ">الشركة</th>
                                     <th class="border-bottom-0"  style="text-align: center;vertical-align: middle;  ">مكان التواجد</th>
                                     <th class="border-bottom-0"  style="text-align: center;vertical-align: middle;  ">الحالة</th>
                                     
-                                    <th class="border-bottom-0"  style="text-align: center;vertical-align: middle;  ">سعر الشراء بدون عمولة</th>
-                                    <th class="border-bottom-0"  style="text-align: center;vertical-align: middle;  "> عمولة</th>
-                                    <th class="border-bottom-0"  style="text-align: center;vertical-align: middle;  "> سعر الشراء مع العمولة</th>
-                                    <th class="border-bottom-0"  style="text-align: center;vertical-align: middle;  ">سعر المبيع</th>
+                                    <th class="border-bottom-0"  style="text-align: center;vertical-align: middle;  ">سعر الشراء المجرد</th>
+                                   
+                                    <th class="border-bottom-0"  style="text-align: center;vertical-align: middle;  "> سعر الشراء مع التكاليف  </th>
+                                   
 
-                                    
+                                     <th class="border-bottom-0"  style="text-align: center;vertical-align: middle;  ">سعر البيع</th>
                                     
                                     <th class="border-bottom-0"  style="text-align: center;vertical-align: middle;  ">العمليات</th>
 
@@ -182,30 +183,20 @@
                                        
                                         <td style="text-align: center;vertical-align: middle;">P{{ $x->products_id }}OR{{$order->id}}</td>
 
-                             
+                             <td style="text-align: center;vertical-align: middle;">{{ $x->product_code }}</td>
                                       
                                         <td style="text-align: center;vertical-align: middle;">{{$x->company_name}} {{$x->product_name}} {{ $x->group_name }}</td>
                                         
                                         
                                         
                                         
-                                        @if($x->value_location==1){
-                                      <td style="text-align: center;vertical-align: middle;">المستودع</td>
-
-                                        }
-                                        @elseif ($x->value_location==2){
-                                      <td style="text-align: center;vertical-align: middle;">محل كبير</td>
-                                            
-                                        }
-                                        @else{
-                                      <td style="text-align: center;vertical-align: middle;">محل صغير</td>
-
-                                        }
-                                        @endif
+                                       
+                                        <td style="text-align: center;vertical-align: middle;">{{$x->location_name}} </td>
+                            
                                         <td style="text-align: center;vertical-align: middle;"> {{$x->status_name}}</td>
 
                                         <td style="text-align: center;vertical-align: middle;">@can('الارباح')  {{$x->primary_price}}@endcan</td>
-                                        <td style="text-align: center;vertical-align: middle;">@can('الارباح')  {{$x->price_with_comm-$x->primary_price}}@endcan</td>
+                                    
                                         <td style="text-align: center;vertical-align: middle;">@can('الارباح')  {{$x->price_with_comm}}@endcan</td>
                                         <td style="text-align: center;vertical-align: middle;">@can('الارباح')  {{$x->selling_price_with_comm?? "غير مخصص"}}@endcan</td>
                                         <td>

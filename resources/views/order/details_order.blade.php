@@ -86,7 +86,7 @@
                                         <ul class="nav panel-tabs main-nav-line">
                                             @can('الارباح')  <li><a href="#tab4" class="nav-link " data-toggle="tab">معلومات
                                                     الطلبية</a></li>@endcan
-                                            <li><a href="#tab5" class="nav-link active" data-toggle="tab">مكنات القهوة</a></li>
+                                            <li><a href="#tab5" class="nav-link active" data-toggle="tab">العناصر المطلوبة</a></li>
                                             
                                             @can('الارباح') 
                                             <li><a href="#tab8" class="nav-link" data-toggle="tab">المرفقات</a></li>
@@ -188,7 +188,7 @@
                                         <td style="text-align: center;vertical-align: middle;">
                                             
                                             <div class = "vertical"><div>
-                                                <img src="http://khaizran2.online/Attachments/{{ $x->id }}/{{ $x->image_name }}"  width="180"  height="120" /></div>
+                                                <img src="http://khaizran2.online/Attachments/{{ $x->id }}/{{ $x->image_name }}"  width="100"  height="100" /></div>
                                                 <div>
                                                     {{ $x->product_name }}</div>
                                             </div>
