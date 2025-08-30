@@ -139,14 +139,25 @@
                             <div class="col-lg-2 mg-t-20 mg-lg-t-0" id="type">
                                 <p class="mg-b-10">تحديد الشركة</p><select class="form-control select" name="productCompany"
                                     >
-                                    <option value="{{ null }}" >
+                                      <option value="{{ null }}" >
                                         {{ 'الکل' }}
                                     </option>
-                                    
+                                     @if(! $typeproductCompanies==null)
+                                       <option value="{{ $typeproductCompanies->id  }}" selected >
+                                    {{ $typeproductCompanies->company_name  }}
+                                </option>
+                                @endif
                                     @foreach ($productCompanies as $productCompany)
-                                    <option value="{{ $productCompany->id }}"> {{ $productCompany->company_name }}</option>
-                                @endforeach
+                                     @if( $productCompany==$typeproductLocation )
+                        
+                              
                                     
+                               @else
+                                    <option value="{{ $productCompany->id }}"> {{ $productCompany->company_name }}</option>
+                                     @endif
+                            @endforeach
+                          
+                                     
     
                                 </select>
                             </div><!-- col-4 -->
@@ -174,19 +185,24 @@
                               <div class="col-lg-2 mg-t-20 mg-lg-t-0" id="type">
                                 <p class="mg-b-10">تحديد مكان التواجد</p><select class="form-control select" name="productGroup"
                                     >
-                                    <option value="{{ null }}" selected>
-                                        {{  'الکل' }}
-                                    </option>
-                                    <option value="1" >
-                                        المستودع
-                                    </option>
-                                    <option value="2" >
-                                        محل كبير
-                                    </option>
-                                    <option value="3" >
-                                        محل صغير
-                                    </option>
-                                
+                                    <option value="{{ null }}"  >
+                                    {{ 'الکل' }}
+                                </option>
+                                @if(! $typeproductLocation==null)
+                                <option value="{{ $typeproductLocation->id  }}" selected >
+                                    {{ $typeproductLocation->location_name  }}
+                                </option>
+                                @endif
+                              
+                                  @foreach ($location as $my_location)
+                                  @if( $my_location==$typeproductLocation )
+                        
+                              
+                                    
+                               @else
+                               <option value="{{$my_location->id }}"> {{ $my_location->location_name }}</option>
+                               @endif
+                            @endforeach
                                   
     
                                     

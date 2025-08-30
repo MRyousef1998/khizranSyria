@@ -82,7 +82,7 @@ class ExportController extends Controller
 
        
         
-
+ 
         
       
         $exporter = User::where('role_id','=',1)->get();
@@ -650,8 +650,10 @@ if($order->category_id==4){
         $typeproductStatus=null;
         $typeOrder=null;
         $typeproductLocation=null;
-        return view('order.export_order.add_product_to_order',compact('order_id','typeproductLocation','typeOrder','location','typeproductStatus','importOrder','productCatgories','productCompanies','productGroupes','status','exporter', 'importer','representative','orders'));
+        $typeproductCompanies= null;
+        return view('order.export_order.add_product_to_order',compact('order_id','typeproductCompanies','typeproductLocation','typeOrder','location','typeproductStatus','importOrder','productCatgories','productCompanies','productGroupes','status','exporter', 'importer','representative','orders'));
     }
+
     public function add_produ_to_order_bycode($order_id)
     {
         
@@ -672,10 +674,13 @@ if($order->category_id==4){
         $exporter = User::where('role_id','=',1)->get();
         $importer = User::where('role_id','=',2)->get();
         $representative = User::where('role_id','=',3)->get();
+        $location=Location::all();       
 
-        $typeproductStatus=null;
+         $typeproductStatus=null;
         $typeOrder=null;
-        return view('order.export_order.add_product_to_order_bycode',compact('order_id','typeOrder','typeproductStatus','importOrder','productCatgories','productCompanies','productGroupes','status','exporter', 'importer','representative','orders'));
+        $typeproductLocation=null;
+        $typeproductCompanies= null;
+        return view('order.export_order.add_product_to_order_bycode',compact('order_id','location','typeproductCompanies','typeOrder','typeproductLocation','typeproductStatus','importOrder','productCatgories','productCompanies','productGroupes','status','exporter', 'importer','representative','orders'));
     }
 
     public function export_order_prodect_code($order_id)
@@ -718,7 +723,7 @@ if($order->category_id==4){
                 ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id')
                 ->leftJoin('boxes', 'products.box_id', '=','boxes.id') 
                 ->leftJoin('shipments', 'boxes.shipment_id', '=','shipments.id') ->
-                
+                leftJoin('locations', 'products.location_id', '=', 'locations.id')->
                 Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id",$request->productCatgory)->where("order_product.orders_id", $request->order_id)
                 ->get();
                 
@@ -734,7 +739,7 @@ if($order->category_id==4){
                     ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id')
                     ->leftJoin('boxes', 'products.box_id', '=','boxes.id') 
                     ->leftJoin('shipments', 'boxes.shipment_id', '=','shipments.id') ->
-                    
+                    leftJoin('locations', 'products.location_id', '=', 'locations.id')->
                     Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id",$request->productCatgory)->where("order_product.orders_id", $request->order_id)
                     ->where("products.box_id",'!=',null)  ->get();}
                     if($request->box_status==2){
@@ -746,7 +751,7 @@ if($order->category_id==4){
                                 ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id')
                                 ->leftJoin('boxes', 'products.box_id', '=','boxes.id') 
                                 ->leftJoin('shipments', 'boxes.shipment_id', '=','shipments.id') ->
-                                
+                                leftJoin('locations', 'products.location_id', '=', 'locations.id')->
                                 Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id",$request->productCatgory)->where("order_product.orders_id", $request->order_id)
                                 ->where("products.box_id",'=',null)  ->get();}
 
@@ -765,7 +770,7 @@ if($order->category_id==4){
             ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id')
             ->leftJoin('boxes', 'products.box_id', '=','boxes.id') 
             ->leftJoin('shipments', 'boxes.shipment_id', '=','shipments.id') ->
-            
+            leftJoin('locations', 'products.location_id', '=', 'locations.id')->
             Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id",$request->productCatgory)->where("order_product.orders_id", $request->order_id)
             ->where("boxes.shipment_id",'!=',null)  ->get();
         ////////////////////////////////////////////////
@@ -781,7 +786,7 @@ if($order->category_id==4){
                                 ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id')
                                 ->leftJoin('boxes', 'products.box_id', '=','boxes.id') 
                                 ->leftJoin('shipments', 'boxes.shipment_id', '=','shipments.id') ->
-                                
+                                leftJoin('locations', 'products.location_id', '=', 'locations.id')->
                                 Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id",$request->productCatgory)->where("order_product.orders_id", $request->order_id)
                                 ->where("boxes.shipment_id",'=',null)->where("products.box_id",'!=',null)  ->get();}
 
@@ -794,7 +799,7 @@ if($order->category_id==4){
                                                     ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id')
                                                     ->leftJoin('boxes', 'products.box_id', '=','boxes.id') 
                                                     ->leftJoin('shipments', 'boxes.shipment_id', '=','shipments.id') ->
-                                                    
+                                                    leftJoin('locations', 'products.location_id', '=', 'locations.id')->
                                                     Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id",$request->productCatgory)->where("order_product.orders_id", $request->order_id)
                                                     ->where("boxes.shipment_id",'=',null) ->where("products.box_id",'=',null) ->get();}
                     
@@ -821,6 +826,7 @@ if($order->category_id==4){
                 $representative = User::where('role_id','=',3)->get();
            
                $order=Order::find($request->order_id);
+   // return $machines;
                 return view('order.export_order.export_order_product_code',compact('boxes','typeShipmentCatgoriesId','typeShipmentCatgoriesName','typeBoxCatgories','typeBoxCatgoriesName','typeproductCatgories','order','machines','exporter', 'importer','representative','productCategories'));
                 
     

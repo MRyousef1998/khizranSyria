@@ -157,8 +157,7 @@
 
 
                                     <th class="border-bottom-0">تاريخ المتوقع للشحن</th>
-                                    <th class="border-bottom-0">العمولة</th>
-                                    <th class="border-bottom-0">الضريبة</th>
+    
                                     <th class="border-bottom-0">القيمة الاجمالية</th>
 
 
@@ -195,8 +194,7 @@
                     
                                                             <td style="text-align: center;vertical-align: middle;  " >{{ $x->order_date }}</td>
                                                             <td style="text-align: center;vertical-align: middle; " >{{ $x->order_due_date }}</td>
-                                                            <td style="text-align: center;vertical-align: middle;  " >@can('الارباح') {{ $x->Amount_Commission }}@endcan</td>
-                                                            <td style="text-align: center;vertical-align: middle;  " >@can('الارباح') {{ $x->Value_VAT }}@endcan</td>
+                                    
                                                             <td style="text-align: center;vertical-align: middle;  " >@can('الارباح') {{ $x->Total }}@endcan</td>
                                                             
                                                             <td>

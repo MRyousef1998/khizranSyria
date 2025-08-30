@@ -127,15 +127,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col">
-                                <label for="inputName" class="control-label" >مارك</label>
-                                <input type="text" class="form-control form-control-lg" id="Mark" name="Mark" value="">
-                            </div>
-                            <div class="col">
-                                <label>التاريخ  </label>
-                                <input class="form-control appearance-none block w-full" type="date" name="sipment_date" value="{{ date('Y-m-d') }}" placeholder="YYYY-MM-DD"
-                                    type="text" required>
-                            </div>
+                         
                          
 
                         </div>
@@ -154,40 +146,15 @@
                         
                        
 
-                        <div class="row">
-                            
-                            <div class="col">
-                                <label for="marce" class="control-label">عنوان المرسى</label>
-                                <input type="text" class="form-control form-control-lg" id="marce"
-                                    name="marce" title="يرجي ادخال عنوان المرسى "
-                                   
-                                    required>
-                            </div>
-                            <div class="col">
-                                <label for="inputName" class="control-label" >رقم الباركن</label>
-                                <input type="text" class="form-control form-control-lg" id="parking_number" name="parking_number" value=0 oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"onchange="finalTotal('total1')" onchange="calTotal()">
-                            </div>
-
-                       
-                        </div>
+                      
                         
 
                         {{-- 5 --}}
                         <div class="row">
                             <input name="my_hidden_input" id="my_hidden_input" hidden
                             >
-                            <div class="col">
-                                <label for="naghda_name" class="control-label">اسم سائق اللانش</label>
-                                <input type="text" class="form-control form-control-lg" id="naghda_name"
-                                    name="naghda_name" title="يرجي ادخال عنوان المرسى "
-                                   
-                                    required>
-                            </div>
-                            <div class="col">
-                                <label for="inputName" class="control-label" >رقم سائق اللانش</label>
-                                <input type="text" class="form-control form-control-lg" id="naghda_number" name="naghda_number" value=0 oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"onchange="finalTotal('total1')" onchange="calTotal()">
-                            </div>
-
+                          
+                           
                             <div class="col">
                                 <label for="driving_name" class="control-label">اسم سائق البيكاب</label>
                                 <input type="text" class="form-control form-control-lg" id="driving_name"
@@ -228,9 +195,14 @@
                                             <thead>
                                                 <tr>
                                                      <th><input name="select_all" id="example-select-all" type="checkbox" onclick="CheckAll('box1', this)" hidden/></th>
-                                            
-                                                    <th class="border-bottom-0"  style="text-align: center;vertical-align: middle; background-color:rgb(97, 134, 255);">كود الصندوق</th>
-                                                    <th class="border-bottom-0" style="text-align: center;vertical-align: middle; background-color:rgb(97, 134, 255);">عدد المحتوى</th>
+                                                <th class="border-bottom-0"  style="text-align: center;vertical-align: middle;  " >کود المنتج الخاص</th>
+                                    <th class="border-bottom-0"  style="text-align: center;vertical-align: middle;  " >کود المنتج العام</th>
+                                    <th class="border-bottom-0"  style="text-align: center;vertical-align: middle;  ">الشركة</th>
+                                    <th class="border-bottom-0"  style="text-align: center;vertical-align: middle;  ">مكان التواجد</th>
+                                 
+                                    <th class="border-bottom-0"  style="text-align: center;vertical-align: middle;  ">ملاحظات</th>
+                                  
+                          
                                                                              
                 
                                                 </tr>
@@ -243,17 +215,22 @@
                                                     <div class="all_row">
                                                     <tr>
                                                         
-                                                        <td style="text-align: center;vertical-align: middle; width:5"><input type="checkbox"  value="{{ $x->boxId }}" class="box1" id="box_id" name="box_id"  ></td>
+                                                        <td style="text-align: center;vertical-align: middle; width:5"><input type="checkbox"  value="{{ $x->products_id }}" class="box1" id="box_id" name="box_id"  ></td>
                                                     
-                                                        <td style="text-align: center;vertical-align: middle;">{{ $x->box_code }}</td>
-                
-                                                        <td class="cart-product-quantity" width="130px" style="text-align: center;vertical-align: middle;">
-                                                            <a class="modal-effect " data-effect="effect-scale" 
-                                                            data-id="{{ $x->boxId }}" 
-                                                            data-toggle="modal" href="#modaldemo9" >{{ $x->count_insaid }}</a>
-                                                    </td>
                                                       
-                                                       
+                                                    
+                                                       <td style="text-align: center;vertical-align: middle;">P{{$x->products_id }}OR</td>
+                                        <td style="text-align: center;vertical-align: middle;">{{$x->product_code }}</td>
+                             
+                                      
+                                        <td style="text-align: center;vertical-align: middle;">{{$x->company_name}} {{$x->product_name}} {{ $x->group_name }}</td>
+                                        
+                                        
+                                         <td style="text-align: center;vertical-align: middle;">{{$x->location_name}}</td>
+                                        
+                                        
+                               
+                                                                      <td style="text-align: center;vertical-align: middle;">{{$x->note?? " "}}</td>          
                 
                                                    
 

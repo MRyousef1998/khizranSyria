@@ -489,7 +489,11 @@ $total_charge=  $total_payments[0]->total;
 
     }
     public function getExportDetailsOrder($id) 
-    {  $boxes =DB::table('products')->
+    { 
+    
+
+      
+      $boxes =DB::table('products')->
         leftJoin('boxes', 'boxes.id', '=', 'products.box_id') ->Join('order_product', 'products.id', '=', 'order_product.products_id')-> leftJoin('orders', 'orders.id', '=', 'order_product.orders_id') ->where("orders.id", $id)->where("products.box_id",'!=',null)
         ->selectRaw('boxes.id ,boxes.box_code')
         ->groupBy('boxes.id','boxes.box_code')->get();
@@ -499,21 +503,11 @@ $total_charge=  $total_payments[0]->total;
         $detail=OrderDetail::where("orders_id",$id);
         $machines =DB::table('products')->
        leftJoin('product_details', 'product_details.id', '=', 'products.product_details_id')->leftJoin('product_groups', 'product_details.group_id', '=', 'product_groups.id')->leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
-       ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id') ->Join('order_product', 'products.id', '=', 'order_product.products_id')->where("order_product.orders_id", $id)->where("product_details.category_id", 1)
+       ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id') ->Join('order_product', 'products.id', '=', 'order_product.products_id')->where("order_product.orders_id", $id)
        ->selectRaw('product_details.id,company_name,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,count(products.box_id) as box_count,product_details.image_name')
        ->groupBy('product_details.id','company_name','product_name','country_of_manufacture','group_name','product_details.image_name')->get();
   // return $machines;
-       $grinders =DB::table('products')->
-       leftJoin('product_details', 'product_details.id', '=', 'products.product_details_id')->leftJoin('product_groups', 'product_details.group_id', '=', 'product_groups.id')->leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
-       ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id') ->Join('order_product', 'products.id', '=', 'order_product.products_id')->where("order_product.orders_id", $id)->where("product_details.category_id", 2)
-       ->selectRaw('product_details.id,company_name,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,count(products.box_id) as box_count,product_details.image_name')
-       ->groupBy('product_details.id','company_name','product_name','country_of_manufacture','group_name','product_details.image_name')->get();
-       $parts =DB::table('products')->
-       leftJoin('product_details', 'product_details.id', '=', 'products.product_details_id')->leftJoin('product_groups', 'product_details.group_id', '=', 'product_groups.id')->leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
-       ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id') ->Join('order_product', 'products.id', '=', 'order_product.products_id')->where("order_product.orders_id", $id)->where("product_details.category_id", 3)
-       ->selectRaw('product_details.id,company_name,product_name,group_name,country_of_manufacture,count(products.product_details_id) as aggregate,count(products.box_id) as box_count,product_details.image_name')
-       ->groupBy('product_details.id','company_name','product_name','country_of_manufacture','group_name','product_details.image_name')->get();
-       $invoices = Invoice::where('orders_id',$id)->first();
+        $invoices = Invoice::where('orders_id',$id)->first();
        
        $details  = InvoicesDetails::where('invoices_id',$invoices->id)->get();
       
@@ -521,7 +515,7 @@ $total_charge=  $total_payments[0]->total;
             $importer = User::where('role_id','=',2)->get();
             $representative = User::where('role_id','=',3)->get();
 
-        return view('order.export_order.details_order1',compact('order','machines','grinders','parts','details','invoices','exporter', 'importer','representative','id','boxes'));
+        return view('order.export_order.details_order1',compact('order','machines','details','invoices','exporter', 'importer','representative','id','boxes'));
 
         
        
@@ -1466,14 +1460,14 @@ return view('order.export_order.add_product_to_order',compact('order_id','typepr
 
           
 
-$productGroupes=ProductGroup::where("id",'!=',$request->productGroup)->get();
 $productCompanies=ProductCompany::where("id",'!=',$request->productCompany)->get();
 $productCatgories=ProductCategory::where("id",'!=',$request->productCatgory)->get();
 $importOrder =Order::where("category_id",'=',1)->get();
 
 
 $status=Status::where("id",'!=',$request->productstatus)->where("id",'>',6)->get();
-$typeproductGroupes=ProductGroup::find($request->productGroup);
+    $location=Location::all();
+
 $typeproductCompanies=ProductCompany::find($request->productCompany);
 $typeproductCatgories=ProductCategory::find($request->productCatgory);
 $typeproductStatus=Status::find($request->productstatus);
@@ -1483,9 +1477,10 @@ $id=$request->productCatgory;
 $exporter = User::where('role_id','=',1)->get();
 $importer = User::where('role_id','=',2)->get();
 $representative = User::where('role_id','=',3)->get();
-
+$typeproductLocation=Location::find($request->productGroup);
+//return $request->productGroup;
 $order_id=$request->order_id;
-return view('order.export_order.add_product_to_order_bycode',compact('order_id','typeOrder','importOrder','typeproductStatus','status','typeproductCatgories','typeproductCompanies','typeproductGroupes','id','machines','exporter', 'importer','representative','productGroupes','productCompanies','productCatgories'));
+return view('order.export_order.add_product_to_order_bycode',compact('order_id','location','typeproductLocation','typeOrder','importOrder','typeproductStatus','status','typeproductCatgories','typeproductCompanies','id','machines','exporter', 'importer','representative','productCompanies','productCatgories'));
 
   
 

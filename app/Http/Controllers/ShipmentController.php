@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Box;
+use App\Models\Product;
 use App\Models\Shipment;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -45,10 +46,17 @@ class ShipmentController extends Controller
     {
     
         $boxes =DB::table('products')->
-        leftJoin('boxes', 'boxes.id', '=', 'products.box_id')->where("boxes.shipment_id",'=',null) ->Join('order_product', 'products.id', '=', 'order_product.products_id')-> leftJoin('orders', 'orders.id', '=', 'order_product.orders_id') ->where("orders.exported_id", $request->clintId)->where("products.box_id",'!=',null)
-        ->selectRaw('boxes.id as boxId,count(products.box_id) as count_insaid,boxes.box_code')
-        ->groupBy('boxes.id','boxes.box_code')->get();
-      
+        leftJoin('boxes', 'boxes.id', '=', 'products.box_id')
+        ->leftJoin('product_details', 'product_details.id', '=', 'products.product_details_id')
+        ->where("products.shipment_id",'=',null)
+              -> leftJoin('product_groups', 'product_details.group_id', '=', 'product_groups.id')
+              -> leftJoin('locations', 'products.location_id', '=', 'locations.id')
+              ->leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
+         ->Join('order_product', 'products.id', '=', 'order_product.products_id')
+         -> leftJoin('orders', 'orders.id', '=', 'order_product.orders_id') 
+         ->where("orders.exported_id", $request->clintId)
+       ->get();
+    
         
         $importClints = User::where('id','=',$request->clintId)->get();
          // $clients = User::where('role_id','=',3)->get();
@@ -69,10 +77,10 @@ class ShipmentController extends Controller
     {
     
 
-     
+    
      $boxes=json_decode($request->my_hidden_input);
        
-         
+          //return $boxes;
 
      if($boxes == null){
          session()->flash('Erorr', 'يرجى اختيار صنايق هذه الشحنة');
@@ -80,26 +88,26 @@ class ShipmentController extends Controller
            return redirect('shipmentes');
      }
     
-     if($request->pic!=null){
+     //if($request->pic!=null){
          
 
    
     
-         $imageName = $request->pic;
-         $fileName = $imageName->getClientOriginalName();
+        //  $imageName = $request->pic;
+        //  $fileName = $imageName->getClientOriginalName();
      
          Shipment::create([
-          'marina_address' => $request->marce,
-          'parking_number' => $request->parking_number,
+          'marina_address' => '$request->marce',
+          'parking_number' => '$request->parking_number',
           
-          'image_name' => $fileName,
-          'mark' => $request->Mark,
-          'Name_driver_lansh' => $request->naghda_name,
+          'image_name' => '$fileName',
+          'mark' => '$request->Mark',
+          'Name_driver_lansh' => '$request->naghda_name',
 
-          'number_driver_lansh' =>$request->naghda_number ,
+          'number_driver_lansh' =>'$request->naghda_number' ,
 
-          'Name_driver' => $request->driving_name,
-          'number_driver' => $request->driving_number,
+          'Name_driver' => '$request->driving_name',
+          'number_driver' => '$request->driving_number',
          
 
           'shiping_date' => $request->sipment_date,
@@ -111,12 +119,12 @@ class ShipmentController extends Controller
   // move pic
   $shipment_id = Shipment::latest()->first()->id;
   
-  $request->pic->move(public_path('Attachments/shipment/' . $shipment_id ), $fileName);
+//   $request->pic->move(public_path('Attachments/shipment/' . $shipment_id ), $fileName);
   foreach($boxes as $box)
   
      { 
-        $my_box = Box::findOrFail($box->id);
- 
+        $my_box = Product::findOrFail($box->id);
+
         $my_box->update([
         'shipment_id' =>$shipment_id,
         
@@ -124,7 +132,8 @@ class ShipmentController extends Controller
 
         ]);
  
-       }
+   
+    }
  
   
        
@@ -134,62 +143,62 @@ class ShipmentController extends Controller
       return redirect('shipmentes');
         
      
-  }
-else{
+ // }
+// else{
 
     
    
 
-    Shipment::create([
-     'marina_address' => $request->marce,
-     'parking_number' => $request->parking_number,
+//     Shipment::create([
+//      'marina_address' => $request->marce,
+//      'parking_number' => $request->parking_number,
      
      
-     'mark' => $request->Mark,
-     'Name_driver_lansh' => $request->naghda_name,
+//      'mark' => $request->Mark,
+//      'Name_driver_lansh' => $request->naghda_name,
 
-     'number_driver_lansh' =>$request->naghda_number ,
+//      'number_driver_lansh' =>$request->naghda_number ,
 
-     'Name_driver' => $request->driving_name,
-     'number_driver' => $request->driving_number,
+//      'Name_driver' => $request->driving_name,
+//      'number_driver' => $request->driving_number,
     
 
-     'shiping_date' => $request->sipment_date,
-     'client_id' => $request->clints,
+//      'shiping_date' => $request->sipment_date,
+//      'client_id' => $request->clints,
      
-     'carton_number' => count($boxes),
+//      'carton_number' => count($boxes),
 
- ]);
-// move pic
-$shipment_id = Shipment::latest()->first()->id;
+//  ]);
+// // move pic
+// $shipment_id = Shipment::latest()->first()->id;
 
 
-foreach($boxes as $box)
+// foreach($boxes as $box)
 
-{ 
-   $my_box = Box::findOrFail($box->id);
+// { 
+//    $my_box = Box::findOrFail($box->id);
 
-   $my_box->update([
-   'shipment_id' =>$shipment_id,
+//    $my_box->update([
+//    'shipment_id' =>$shipment_id,
    
 
 
-   ]);
+//    ]);
 
-  }
+//   }
 
 
   
 
 
- session()->flash('Add', 'تم اضافةالشحنة بنجاح ');
- return redirect('shipmentes');
+//  session()->flash('Add', 'تم اضافةالشحنة بنجاح ');
+//  return redirect('shipmentes');
     
-}
+// }
      
     }
 
-    /**
+    /**s
      * Display the specified resource.
      *
      * @param  \App\Models\Shipment  $shipment
@@ -197,7 +206,7 @@ foreach($boxes as $box)
      */
     public function show(Request $re)
     {
-        return $request;
+        return $re;
     }
 
     public function shipment_serch(Request $request)
