@@ -713,51 +713,22 @@ if($order->category_id==4){
         $typeShipmentCatgoriesName=null;
        
     
-        if($request->box_status==null&&$request->shipment_status==null){
+        if($request->shipment_status==null){
 
-
+ 
         $machines =DB::table('products')->
                 leftJoin('product_details', 'product_details.id', '=', 'products.product_details_id')->
                 leftJoin('product_groups', 'product_details.group_id', '=', 'product_groups.id')->
                 leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
                 ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id')
-                ->leftJoin('boxes', 'products.box_id', '=','boxes.id') 
-                ->leftJoin('shipments', 'boxes.shipment_id', '=','shipments.id') ->
+              
+                ->leftJoin('shipments', 'products.shipment_id', '=','shipments.id') ->
                 leftJoin('locations', 'products.location_id', '=', 'locations.id')->
                 Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id",$request->productCatgory)->where("order_product.orders_id", $request->order_id)
                 ->get();
                 
         }
-      else  if($request->box_status!=null&&$request->shipment_status==null){
 
-        if($request->box_status==1){
-            $typeBoxCatgoriesName='مغلف';
-            $machines =DB::table('products')->
-                    leftJoin('product_details', 'product_details.id', '=', 'products.product_details_id')->
-                    leftJoin('product_groups', 'product_details.group_id', '=', 'product_groups.id')->
-                    leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
-                    ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id')
-                    ->leftJoin('boxes', 'products.box_id', '=','boxes.id') 
-                    ->leftJoin('shipments', 'boxes.shipment_id', '=','shipments.id') ->
-                    leftJoin('locations', 'products.location_id', '=', 'locations.id')->
-                    Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id",$request->productCatgory)->where("order_product.orders_id", $request->order_id)
-                    ->where("products.box_id",'!=',null)  ->get();}
-                    if($request->box_status==2){
-                        $typeBoxCatgoriesName='غير مغلف';
-                        $machines =DB::table('products')->
-                                leftJoin('product_details', 'product_details.id', '=', 'products.product_details_id')->
-                                leftJoin('product_groups', 'product_details.group_id', '=', 'product_groups.id')->
-                                leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
-                                ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id')
-                                ->leftJoin('boxes', 'products.box_id', '=','boxes.id') 
-                                ->leftJoin('shipments', 'boxes.shipment_id', '=','shipments.id') ->
-                                leftJoin('locations', 'products.location_id', '=', 'locations.id')->
-                                Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id",$request->productCatgory)->where("order_product.orders_id", $request->order_id)
-                                ->where("products.box_id",'=',null)  ->get();}
-
-
-                    
-            }
      else  if($request->shipment_status!=null){
 
                 if($request->shipment_status==1){
@@ -768,52 +739,38 @@ if($order->category_id==4){
             leftJoin('product_groups', 'product_details.group_id', '=', 'product_groups.id')->
             leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
             ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id')
-            ->leftJoin('boxes', 'products.box_id', '=','boxes.id') 
-            ->leftJoin('shipments', 'boxes.shipment_id', '=','shipments.id') ->
+          
+            ->leftJoin('shipments', 'products.shipment_id', '=','shipments.id') ->
             leftJoin('locations', 'products.location_id', '=', 'locations.id')->
             Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id",$request->productCatgory)->where("order_product.orders_id", $request->order_id)
-            ->where("boxes.shipment_id",'!=',null)  ->get();
+            ->where("products.shipment_id",'!=',null)  ->get();
         ////////////////////////////////////////////////
         }
                         else{
                             $typeShipmentCatgoriesName='غير مشحون ';
-                            if($request->box_status==1){
+                          
                                 $typeBoxCatgoriesName='مغلف';
                                 $machines =DB::table('products')->
                                 leftJoin('product_details', 'product_details.id', '=', 'products.product_details_id')->
                                 leftJoin('product_groups', 'product_details.group_id', '=', 'product_groups.id')->
                                 leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
                                 ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id')
-                                ->leftJoin('boxes', 'products.box_id', '=','boxes.id') 
-                                ->leftJoin('shipments', 'boxes.shipment_id', '=','shipments.id') ->
+                               
+                                ->leftJoin('shipments', 'products.shipment_id', '=','shipments.id') ->
                                 leftJoin('locations', 'products.location_id', '=', 'locations.id')->
                                 Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id",$request->productCatgory)->where("order_product.orders_id", $request->order_id)
-                                ->where("boxes.shipment_id",'=',null)->where("products.box_id",'!=',null)  ->get();}
+                                ->where("products.shipment_id",'=',null)-get();
 
-                                        if($request->box_status==2){
-                                            $typeBoxCatgoriesName='غير مغلف';
-                                            $machines =DB::table('products')->
-                                                    leftJoin('product_details', 'product_details.id', '=', 'products.product_details_id')->
-                                                    leftJoin('product_groups', 'product_details.group_id', '=', 'product_groups.id')->
-                                                    leftJoin('product_companies', 'product_details.company_id', '=', 'product_companies.id')
-                                                    ->leftJoin('statuses', 'products.statuses_id', '=', 'statuses.id')
-                                                    ->leftJoin('boxes', 'products.box_id', '=','boxes.id') 
-                                                    ->leftJoin('shipments', 'boxes.shipment_id', '=','shipments.id') ->
-                                                    leftJoin('locations', 'products.location_id', '=', 'locations.id')->
-                                                    Join('order_product', 'products.id', '=', 'order_product.products_id')->where("product_details.category_id",$request->productCatgory)->where("order_product.orders_id", $request->order_id)
-                                                    ->where("boxes.shipment_id",'=',null) ->where("products.box_id",'=',null) ->get();}
-                    
-
-                        }
+                                  
 
                       
 
                         
                 }
 
-        
+            }
                 
-            
+           // return $machines;
                $productCategories=ProductCategory::where("id",'!=',$request->productCatgory)->get();
              
                $typeproductCatgories=ProductCategory::find($request->productCatgory);

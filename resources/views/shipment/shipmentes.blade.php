@@ -154,7 +154,7 @@
                                 <tr>
                                     <th class="border-bottom-0" >رقم الشحنة</th>
                                     
-                                    <th class="border-bottom-0">مارك</th>
+                         
 
                                   
                                     <th class="border-bottom-0">عدد الکرتین </th>
@@ -162,14 +162,10 @@
                                     <th class="border-bottom-0">تاريخ الشحن</th>
                                     <th class="border-bottom-0">عنوان الشحنة</th>
 
-                                    <th class="border-bottom-0">رقم البارکن</th>
-                                    <th class="border-bottom-0">اسم سائق اللانش</th>
-                                    <th class="border-bottom-0">رقم سائق اللانش</th>
-                                    <th class="border-bottom-0">اسم سائق البيكاب </th>
-
+                         
 
                                     
-                                    <th class="border-bottom-0">رقم سائق البيكاب </th>
+                       
                                      
                                     
 
@@ -183,7 +179,7 @@
                                 <?php $i++; ?>
                                 <tr>
                                     <td  style="text-align: center;vertical-align: middle;" >{{ $i }}</td>
-                                    <td style="text-align: center;vertical-align: middle;">{{ $x->mark }}</td>
+                            
 
                                  
                                     
@@ -198,13 +194,7 @@
 
                                     <td style="text-align: center;vertical-align: middle;  " >{{ $x->marina_address }}</td>
                                     
-                                    <td style="text-align: center;vertical-align: middle;  " >{{ $x->parking_number }}</td>
-                                    
-                                    <td style="text-align: center;vertical-align: middle;  " >{{ $x->Name_driver_lansh }}</td>
-                                    <td style="text-align: center;vertical-align: middle;  " >{{ $x->number_driver_lansh }}</td>
-                                    <td style="text-align: center;vertical-align: middle;  " >{{ $x->Name_driver }}</td>
-
-                                    <td style="text-align: center;vertical-align: middle;  " >{{ $x->number_driver }}</td>
+                              
 
                                     
 

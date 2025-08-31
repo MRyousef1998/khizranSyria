@@ -107,7 +107,7 @@
                             </select>
                         </div><!-- col-4 -->
 
-                        <div class="col-lg-2 mg-t-20 mg-lg-t-0" id="type">
+                        <!-- <div class="col-lg-2 mg-t-20 mg-lg-t-0" id="type">
                             <p class="mg-b-10">حالة التغليف</p><select class="form-control select2" name="box_status"
                                 >
                                 <option value="{{ $typeBoxCatgoriesId ?? null }}" selected>
@@ -124,7 +124,7 @@
                                 
 
                             </select>
-                        </div>
+                        </div> -->
                         <div class="col-lg-2 mg-t-20 mg-lg-t-0" id="type">
                             <p class="mg-b-10">حالة الشحن</p><select class="form-control select2" name="shipment_status"
                                 >
@@ -169,7 +169,7 @@
                                     <th class="border-bottom-0"  style="text-align: center;vertical-align: middle;  ">مكان التواجد</th>
                                     <th class="border-bottom-0"  style="text-align: center;vertical-align: middle;  ">الحالة</th>
                                     
-                                    <th class="border-bottom-0"  style="text-align: center;vertical-align: middle;  ">كود التغليف</th>
+                            
                                     <th class="border-bottom-0"  style="text-align: center;vertical-align: middle;  ">تاريخ الشحن</th>
 
                                     <th class="border-bottom-0"  style="text-align: center;vertical-align: middle;  ">سعر الشراء</th>
@@ -201,21 +201,7 @@
                                        
                                         <td style="text-align: center;vertical-align: middle;"> {{$x->status_name}}</td>
                                        
-                                        @if($x->box_id!=null)
-                                        <td>
-                                           
-                                           <span class="label text-success d-flex">
-                                               <div class="dot-label bg-success ml-1"></div>{{ $x->box_code }}
-                                           </span>                                       
-                                         </td>
-                                         @else
-                                         <td>
-                                           
-                                           <span class="label text-danger d-flex">
-                                               <div class="dot-label bg-danger ml-1"></div>غير مخصص
-                                           </span>                                       
-                                         </td>
-                                         @endif
+                                    
 
 
 
@@ -247,41 +233,7 @@
                                                 <div class="dropdown-menu tx-13">
                                                 
                                                 @if($x->statuses_id!=4) 
-                                                @if($order->category_id!=4)  
-                                                @if($x->box_id==null)
-                                                    <a class="dropdown-item" 
-                                                    data-id="{{ $x->products_id }}" data-order_id="{{ $order->id }}"
-							                            	data-toggle="modal"
-							                            	href="#capsalation"    
-                                                     
-                                                    
-                                                    
-                                                    ><i
-                                                        class="text-success fas fa-check"></i>&nbsp;&nbsp;
-                                                      
-                                                    تغليف
-                                                </a>
-                                                @else 
-                                                <a class="dropdown-item" 
-                                                    data-id="{{ $x->products_id }}" data-order_id="{{ $order->id }}"
-							                            	data-toggle="modal"
-							                            	href="#capsalation"    
-                                                     
-                                                     
-                                                    
-                                                    ><i
-                                                        class="text-success fas fa-check"></i>&nbsp;&nbsp;
-                                                      
-                                                    تعديل كود
-                                                </a>
-                                                @endif
-                                                <a class="dropdown-item" 
-								data-id="{{ $x->products_id }}" data-order_id="{{ $x->orders_id }}" 
-								data-toggle="modal"
-								href="#sharcapsalation" > <i
-                                                        class="text-success fas fa-check"></i>&nbsp;&nbsp; تغليف مشترك</a>
                                                 
-                                                    @endif
                                                     <a class="dropdown-item"
 								data-id="{{ $x->products_id }}" data-order_id="{{ $x->orders_id }}" data-product_price="{{ $x->selling_price_with_comm }}" 
 								data-toggle="modal"

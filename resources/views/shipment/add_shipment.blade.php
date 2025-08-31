@@ -111,7 +111,8 @@
                         {{-- 1 --}}
 
                         <div class="row">
-                           
+                            <input name="my_hidden_input" id="my_hidden_input" hidden
+                            >
 
                            <div class="col">
                           
@@ -128,49 +129,28 @@
                                 </select>
                             </div>
                          
-                         
+                          <div class="col">
+                                <label>التاريخ  </label>
+                                <input class="form-control appearance-none block w-full" type="date" name="sipment_date" value="{{ date('Y-m-d') }}" placeholder="YYYY-MM-DD"
+                                    type="text" required>
+                            </div>
 
                         </div>
 
-               
-
-                        {{-- 3 --}}
-
-                    
+                  <div class="row">
                             
-
-                        
-
-                    
-                        {{-- 4 --}}
-                        
-                       
-
-                      
-                        
-
-                        {{-- 5 --}}
-                        <div class="row">
-                            <input name="my_hidden_input" id="my_hidden_input" hidden
-                            >
-                          
-                           
                             <div class="col">
-                                <label for="driving_name" class="control-label">اسم سائق البيكاب</label>
-                                <input type="text" class="form-control form-control-lg" id="driving_name"
-                                    name="driving_name" title="يرجي ادخال عنوان المرسى "
+                                <label for="marce" class="control-label">عنوان التسليم</label>
+                                <input type="text" class="form-control form-control-lg" id="marce"
+                                    name="marce" title="يرجي ادخال عنوان التسليم "
                                    
                                     required>
                             </div>
-                            <div class="col">
-                                <label for="inputName" class="control-label" >رقم سائق البيكاب</label>
-                                <input type="text" class="form-control form-control-lg" id="driving_number" name="driving_number" value=0 oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"onchange="finalTotal('total1')" onchange="calTotal()">
-                            </div>
 
-                       
-                        </div>
+                          </div>
                         
-                        <br>
+                    
+                          <br>
 
                         <p class="text-danger">* صيغة المرفق pdf, jpeg ,.jpg , png </p>
                         <h5 class="card-title">المرفقات</h5>
@@ -181,13 +161,10 @@
                         </div>
                       
                         
-                        <br>
-                            
+                            <br>
                         <div class="col-xl-12">
                             <div class="card mg-b-20">
-                                <div class="card-header pb-0">
-                             
-                                </div>
+                                
                                 <div class="card-body">
                                    
                                     <div class="table-responsive">
@@ -254,16 +231,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="panel-body tabs-menu-body main-content-body-right border">
-                      
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-           
-        </div>
-    </div>
+                     
 
 
 
@@ -271,7 +239,6 @@
  
 
 
-                        </div>
 
 
                        
@@ -422,13 +389,14 @@ else{
     </script>
    <script>
     function sandData() {
-        
+       
         var order = new  Array();
         
         
 
         $("#example input[type=checkbox]:checked").each(function() {
             
+      
             var item = { id:this.value
                                 
                                  };
@@ -439,7 +407,7 @@ else{
             
         });
           document.getElementById('my_hidden_input').value = JSON.stringify(order);
-          
+         
             
             document.getElementById('form').submit();
 

@@ -99,14 +99,10 @@
                                                             <td>{{ $shipment->id }}</td>
                                                             <th scope="row">اسم العمیل</th>
                                                             <td>{{ $shipment->importer->name }}</td>
-                                                             <th scope="row">مارك</th>
-                                                            <td>{{$shipment->mark }}</td>
+                                                            
                                                             <th scope="row">عدد الکراتین</th>
                                                             <td>{{ $shipment->carton_number  }}</td>
-                                                            <th scope="row">تاريخ الشحن</th>
-                                                            <td>{{ $shipment->shiping_date }}</td>
-                                                            <th scope="row">عنوان المرسى</th>
-                                                            <td>{{ $shipment->marina_address  }}</td>
+                                                      
                                                             
                                                             
                                                             
@@ -114,16 +110,10 @@
                                                         </tr>
 
                                                         <tr>
-                                                            <th scope="row">رقم البارکن</th>
-                                                            <td>{{ $shipment->parking_number }}</td>
-                                                            <th scope="row">اسم سائق اللانش</th>
-                                                            <td>{{ $shipment->Name_driver_lansh }}</td>
-                                                            <th scope="row">رقم سائق اللانش</th>
-                                                            <td>{{ $shipment->number_driver_lansh }}</td>
-                                                            <th scope="row">اسم سائق البيكاب</th>
-                                                            <td>{{ $shipment->Name_driver }}</td>
-                                                            <th scope="row">رقم سائق البيكاب</th>
-                                                            <td>{{ $shipment->number_driver }}</td>
+                                                          <th scope="row">تاريخ الشحن</th>
+                                                            <td>{{ $shipment->shiping_date }}</td>
+                                                            <th scope="row">عنوان المرسى</th>
+                                                            <td>{{ $shipment->marina_address  }}</td>
                                                         </tr>
 
 
@@ -140,10 +130,13 @@
                         <table id="example1" class="table key-buttons text-md-nowrap" data-page-length='50'>
                             <thead>
                                 <tr>
-                                     <th><input name="select_all" id="example-select-all" type="checkbox" onclick="CheckAll('box1', this)" /></th>
+                                   
                                     <th class="border-bottom-0" style="text-align: center;vertical-align: middle; " >رقم </th>
-                                    <th class="border-bottom-0"  style="text-align: center;vertical-align: middle; background-color:rgb(97, 134, 255);">كود الصندوق</th>
-                                    <th class="border-bottom-0" style="text-align: center;vertical-align: middle; background-color:rgb(97, 134, 255);">عدد المحتوى</th>
+                      <th class="border-bottom-0"  style="text-align: center;vertical-align: middle;  " > کود المنتج الخاص</th>
+                                    <th class="border-bottom-0"  style="text-align: center;vertical-align: middle;  " >کود المنتج العام</th>
+                                    <th class="border-bottom-0"  style="text-align: center;vertical-align: middle;  ">الشركة</th>
+                                    <th class="border-bottom-0"  style="text-align: center;vertical-align: middle;  ">مكان التواجد</th>
+                           
                                                              
 
                                 </tr>
@@ -158,17 +151,21 @@
                                 <?php $i++; ?>
                                     <div class="all_row">
                                     <tr>
-                                        
-                                        <td style="text-align: center;vertical-align: middle; width:5"><input type="checkbox"  value="{{ $x->boxId }}" class="box1" id="box_id" name="box_id"  ></td>
-                                        <td  style="text-align: center;vertical-align: middle; background-color:rgb(11, 107, 16);width:5" >{{ $i }}</td>
-                                        <td style="text-align: center;vertical-align: middle;">{{ $x->box_code }}</td>
-
-                                        <td class="cart-product-quantity" width="130px" style="text-align: center;vertical-align: middle;">
-                                            <a class="modal-effect " data-effect="effect-scale" 
-                                            data-id="{{ $x->boxId }}" 
-                                            data-toggle="modal" href="#modaldemo9" >{{ $x->count_insaid }}</a>
-                                    </td>
+                                        <td style="text-align: center;vertical-align: middle;">{{ $i }}</td>
                                       
+                                      <td style="text-align: center;vertical-align: middle;">P{{ $x->products_id }}OR{{$x->orders_id}}</td>
+
+                             <td style="text-align: center;vertical-align: middle;">{{ $x->product_code }}</td>
+                                      
+                                        <td style="text-align: center;vertical-align: middle;">{{$x->company_name}} {{$x->product_name}} {{ $x->group_name }}</td>
+                                        
+                                        
+                                        
+                                        
+                                       
+                                        <td style="text-align: center;vertical-align: middle;">{{$x->location_name}} </td>
+                            
+                                
                                        
 
                                    
