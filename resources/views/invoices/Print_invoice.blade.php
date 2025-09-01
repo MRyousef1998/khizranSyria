@@ -227,7 +227,7 @@
     </div>
     <!-- main-content closed -->
 @endsection
-@section('js')
+
     <!--Internal  Chart.bundle js -->
     <script src="{{ URL::asset('assets/plugins/chart.js/Chart.bundle.min.js') }}"></script>
 
@@ -243,5 +243,25 @@
         }
 
     </script>
+   
+ <script>
+    (function() {
+        // إزالة أي تاريخ سابق لتجنب الرجوع
+        history.pushState(null, null, location.href);
+        history.pushState(null, null, location.href);
 
-@endsection
+        window.addEventListener('popstate', function(event) {
+            // إعادة التوجيه مباشرة للـ Home
+            window.location.href = "{{ url('/home') }}";
+        });
+
+        // منع أي محاولة للرجوع مرة أخرى
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                history.pushState(null, null, location.href);
+            }, 0);
+        });
+    })();
+</script>
+
+

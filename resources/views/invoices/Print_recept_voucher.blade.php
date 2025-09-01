@@ -218,5 +218,15 @@
         }
 
     </script>
+<script>
+    window.onload = function () {
+        if (window.history && window.history.pushState) {
+            window.history.pushState(null, null, window.location.href);
+            window.onpopstate = function () {
+                window.location.href = "{{ url('/home') }}"; // الصفحة الرئيسية
+            };
+        }
+    };
+</script>
 
 @endsection

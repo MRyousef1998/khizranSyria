@@ -178,3 +178,35 @@
 	}
 
 </script>
+<script>
+    // الوقت بالميلّي ثانية (هنا 5 دقائق = 300000)
+    let idleTime = 0;
+    let idleLimit = 600000; // 5 دقائق
+
+    function resetTimer() {
+        idleTime = 0;
+    }
+
+    // كل ثانية بزيد الوقت
+    setInterval(function() {
+        idleTime += 1000;
+        if (idleTime >= idleLimit) {
+           window.location.href = "{{ url('/') }}";// صفحة تسجيل الدخول
+        }
+    }, 1000);
+
+    // أي حركة بالموس أو كيبورد تعيد العداد للصفر
+    window.onmousemove = resetTimer;
+    window.onkeydown = resetTimer;
+    window.onclick = resetTimer;
+</script>
+<!-- <script>
+    window.onload = function () {
+        if (window.history && window.history.pushState) {
+            window.history.pushState(null, null, window.location.href);
+            window.onpopstate = function () {
+                window.location.href = "{{ url('/home') }}"; // الصفحة الرئيسية
+            };
+        }
+    };
+</script> -->
