@@ -34,8 +34,8 @@
        @if ($id==4)
      <?php $s="مكنات كسر "; ?>
        
-    @endif
-        @if ($id==6)
+
+        @else 
      <?php $s="تبريد"; ?>
        
     @endif
