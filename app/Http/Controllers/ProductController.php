@@ -269,7 +269,9 @@ $id=$request->productCatgory;
             $order_id = $request->productorder;
              $order=Order::find($order_id);
              $order_cost=$order->Total;
-           
+         if($order_cost == 0){
+          $order_cost=1;
+         }
         $total_payments=Payment::where("orders_id", $order_id)->where("representative_id", '=',null)->selectRaw('sum(amount) as total')
         ->groupBy('orders_id')->get(); 
  if ($total_payments->isEmpty()==true) {

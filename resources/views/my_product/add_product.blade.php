@@ -57,7 +57,7 @@
                                     <!--placeholder-->
                                     <option value="" selected disabled>حدد الطلبية</option>
                                     @foreach ($orders as $order)
-                                        <option value="{{ $order->id }}"> {{ $order->importer->name }}</option>
+                                        <option value="{{ $order->id }}" selected> {{ $order->importer->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -190,7 +190,7 @@
                                 <label for="inputName" class="control-label">مكان التواجد   </label>
                                 <select name="product_location" id="product_location" class="form-control" required>
                                     <!--placeholder-->
-                                     <option value="" selected disabled>حدد  الحالة</option>
+                                     <option value="" selected disabled>حدد   الموقع</option>
                                     @foreach ($location as $my_location)
                                 
                                <option value="{{$my_location->id }}" > {{ $my_location->location_name }}</option>
